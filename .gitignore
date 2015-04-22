@@ -1,0 +1,10 @@
+node_modules/
+built/*
+~*.docx
+*.swp
+build.json
+*.actual
+*.config
+coverage/
+internal/
+**/.DS_Store
