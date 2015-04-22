@@ -16,3 +16,4 @@ declare function __extends(d: Function, b: Function): void;
 declare function __decorate(decorators: Function[], target: Object, propertyKey?: string | symbol, propertyDescriptor?: any): Object;
 declare function __param(index: number, decorator: Function): Function;
 declare function __metadata(metadataKey: any, metadataValue: any): Function;
+declare function __awaiter(generator: Object): any;
