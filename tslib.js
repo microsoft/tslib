@@ -61,18 +61,19 @@ and limitations under the License.
         }
     }
     
-    function __awaiter(generator, ctor) {
-        function resolve(value) { return step(generator.next(value)); }
-        function reject(reason) { return step(generator["throw"](reason)); }
-        function step(result) {
-            while (true) {
-                var done = result.done, value = result.value, then;
-                if (done) return value;
-                if (value && typeof (then = value.then) === "function") return then.call(value, resolve, reject);
-                result = generator.next(value);
+    function __awaiter(generator, thisArg, args, PromiseConstructor) {
+        PromiseConstructor || (PromiseConstructor = Promise);
+        return new PromiseConstructor(function (resolve, reject) {
+            generator = generator.call(thisArg, args);
+            function cast(value) { return value instanceof PromiseConstructor ? value : new PromiseConstructor(function (resolve) { resolve(value); }); }
+            function onfulfill(value) { try { step("next", value); } catch (e) { reject(e); } }
+            function onreject(value) { try { step("throw", value); } catch (e) { reject(e); } }
+            function step(verb, value) {
+                var result = generator[verb](value);
+                result.done ? resolve(result.value) : cast(result.value).then(onfulfill, onreject);
             }
-        }
-        return new (ctor || Promise)(function (resolver) { resolver(resolve(undefined)); });
+            step("next", void 0);
+        });
     }
 
     exporter('__extends', __extends);
