@@ -40,14 +40,10 @@ and limitations under the License.
     }
     
     function __decorate(decorators, target, key, desc) {
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") {
-            return Reflect.decorate(decorators, target, key, desc);
-        }
-        switch (arguments.length) {
-            case 2: return decorators.reduceRight(function (o, d) { return (d && d(o)) || o; }, target);
-            case 3: return decorators.reduceRight(function (o, d) { return (d && d(target, key)), void 0; }, void 0);
-            case 4: return decorators.reduceRight(function (o, d) { return (d && d(target, key, o)) || o; }, desc);
-        }
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        return c > 3 && r && Object.defineProperty(target, key, r), r;
     }
 
     function __param(paramIndex, decorator) {
@@ -55,16 +51,13 @@ and limitations under the License.
     }
     
     function __metadata(metadataKey, metadataValue) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") {
-            return Reflect.metadata(metadataKey, metadataValue);
-        }
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
     }
     
-    function __awaiter(generator, thisArg, args, PromiseConstructor) {
-        PromiseConstructor || (PromiseConstructor = Promise);
-        return new PromiseConstructor(function (resolve, reject) {
-            generator = generator.call(thisArg, args);
-            function cast(value) { return value instanceof PromiseConstructor ? value : new PromiseConstructor(function (resolve) { resolve(value); }); }
+    function __awaiter(thisArg, _arguments, Promise, generator) {
+        return new Promise(function (resolve, reject) {
+            generator = generator.call(thisArg, _arguments);
+            function cast(value) { return value instanceof Promise && value.constructor === Promise ? value : new Promise(function (resolve) { resolve(value); }); }
             function onfulfill(value) { try { step("next", value); } catch (e) { reject(e); } }
             function onreject(value) { try { step("throw", value); } catch (e) { reject(e); } }
             function step(verb, value) {
