@@ -12,7 +12,6 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-export declare function __extends(d: Function, b: Function): void;
 export declare function __decorate(decorators: Function[], target: any, propertyKey?: string | symbol, propertyDescriptor?: any): any;
 export declare function __param(index: number, decorator: Function): Function;
 export declare function __metadata(metadataKey: any, metadataValue: any): Function;
