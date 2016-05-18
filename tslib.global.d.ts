@@ -12,9 +12,11 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-export declare function __extends(d: Function, b: Function): void;
-export declare function __assign(t: any, ...sources: any[]): any;
-export declare function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any;
-export declare function __param(paramIndex: number, decorator: Function): Function;
-export declare function __metadata(metadataKey: any, metadataValue: any): Function;
-export declare function __awaiter(thisArg: any, _arguments: any, P: Function, generator: Function): any;
+declare namespace __tslib {
+    function __extends(d: Function, b: Function): void;
+    function __assign(t: any, ...sources: any[]): any;
+    function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any;
+    function __param(paramIndex: number, decorator: Function): Function;
+    function __metadata(metadataKey: any, metadataValue: any): Function;
+    function __awaiter(thisArg: any, _arguments: any, P: Function, generator: Function): any;
+}
