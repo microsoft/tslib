@@ -18,6 +18,7 @@ var __tslib;
     __tslib = { };
     if (typeof global === "object" && !global.__tslib) global.__tslib = __tslib;
     if (typeof self === "object" && !self.__tslib) self.__tslib = __tslib;
+    if (typeof this === "object" && !this.__tslib) this.__tslib = __tslib;
     if (typeof System === 'object' && typeof System.register === 'function') {
         System.register("tslib", [], function (exporter) {
             factory(createExporter(__tslib, exporter));
