@@ -15,18 +15,26 @@ and limitations under the License.
 /* global global, define, System, Reflect, Promise */
 var __tslib;
 (function (factory) {
+    __tslib = { };
+    if (typeof global === "object" && !global.__tslib) global.__tslib = __tslib;
+    if (typeof self === "object" && !self.__tslib) self.__tslib = __tslib;
     if (typeof System === 'object' && typeof System.register === 'function') {
-        System.register("tslib", [], function (exporter) { return factory(exporter), { setters: [], execute: function() { } }; });
+        System.register("tslib", [], function (exporter) {
+            factory(createExporter(__tslib, exporter));
+            return { setters: [], execute: function() { } };
+        });
     }
     else if (typeof module === 'object' && typeof module.exports === 'object') {
-        factory(function (id, v) { exports[id] = v; });
+        factory(createExporter(__tslib, createExporter(module.exports)));
     }
     else if (typeof define === 'function' && define.amd) {
-        define("tslib", ["exports"], function (exports) { factory(function (id, v) { exports[id] = v; }); });
+        define("tslib", ["exports"], function (exports) { factory(createExporter(__tslib, createExporter(exports))); });
     }
     else {
-        __tslib = { };
-        factory(function (id, v) { __tslib[id] = v; });
+        factory(createExporter(__tslib));
+    }
+    function createExporter(exports, previous) {
+        return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
     }
 })
 (function (exporter) {
