@@ -16,7 +16,7 @@ and limitations under the License.
 var __tslib;
 (function (factory) {
     if (typeof System === 'object' && typeof System.register === 'function') {
-        System.register([], function (exporter) { return factory(exporter), { setters: [], execute: function() { } }; });
+        System.register("tslib", [], function (exporter) { return factory(exporter), { setters: [], execute: function() { } }; });
     }
     else if (typeof module === 'object' && typeof module.exports === 'object') {
         factory(function (id, v) { exports[id] = v; });
