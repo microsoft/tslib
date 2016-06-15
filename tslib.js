@@ -82,7 +82,7 @@ var __generator;
     };
 
     __generator = function (body) {
-        var _ = { label: 0, trys: [], stack: [], done: false, flag: true };
+        var _ = { label: 0, sent: function() { if (sent[0] === 1 /*throw*/) throw sent[1]; return sent[1]; }, trys: [], stack: [] }, sent;
         function step(op) {
             if (_.flag) throw new TypeError("Generator is already executing.");
             while (true) {
@@ -93,29 +93,26 @@ var __generator;
                 }
                 try {
                     switch (_.flag = true, op[0]) {
-                        case 0 /*next*/: _.sent = function() { return op[1]; }; break;
-                        case 1 /*throw*/: _.sent = function() { throw op[1]; }; break;
+                        case 0 /*next*/: case 1 /*throw*/: sent = op; break;
                         case 4 /*yield*/: return _.label++, { value: op[1], done: false };
                         case 7 /*endfinally*/: op = _.stack.pop(), _.trys.pop(); continue;
                         default:
-                            var rgn = _.trys.length > 0 && _.trys[_.trys.length - 1];
-                            if (!rgn && (op[0] === 1 /*throw*/ || op[0] === 6 /*catch*/ || op[0] === 2 /*return*/)) {
+                            var r = _.trys.length > 0 && _.trys[_.trys.length - 1];
+                            if (!r && (op[0] === 1 /*throw*/ || op[0] === 6 /*catch*/ || op[0] === 2 /*return*/)) {
                                 _.done = true;
                                 continue;
                             }
-                            if (op[0] === 3 /*break*/ && (!rgn || (op[1] > rgn[0] && op[1] < rgn[3]))) {
+                            if (op[0] === 3 /*break*/ && (!r || (op[1] > r[0] && op[1] < r[3]))) {
                                 _.label = op[1];
                             }
-                            else if (op[0] === 6 /*catch*/ && rgn && _.label < rgn[1]) {
-                                _.sent = function() { return op[1]; }
-                                _.label = rgn[1];
+                            else if (op[0] === 6 /*catch*/ && r && _.label < r[1]) {
+                                _.label = r[1], sent = op;
                             }
-                            else if (rgn && _.label < rgn[2]) {
-                                _.stack.push(op);
-                                _.label = rgn[2];
+                            else if (r && _.label < r[2]) {
+                                _.label = r[2], _.stack.push(op);
                             }
                             else {
-                                if (rgn[2]) _.stack.pop();
+                                if (r[2]) _.stack.pop();
                                 _.trys.pop();
                                 continue;
                             }
@@ -123,7 +120,7 @@ var __generator;
                     op = body(_);
                 }
                 catch (e) { op = [6 /*catch*/, e]; }
-                finally { _.flag = false; _.sent = void 0; }
+                finally { _.flag = false, sent = void 0; }
             }
         }
         return {
