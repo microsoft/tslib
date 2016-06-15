@@ -25,5 +25,6 @@
         "type": "git",
         "url": "https://github.com/Microsoft/TypeScript-Runtime.git"
     },
-    "main": "tslib.js"
+    "main": "tslib.js",
+    "typings": "tslib.d.ts"
 }
