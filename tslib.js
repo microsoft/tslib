@@ -98,9 +98,9 @@ var __generator;
                         case 7: op = _.stack.pop(), _.trys.pop(); continue;
                         default:
                             var r = _.trys.length > 0 && _.trys[_.trys.length - 1];
-                            if (!r && (op[0] === 1 || op[0] === 6 || op[0] === 2)) { _.done = 1; continue; }
+                            if (!r && (op[0] === 6 || op[0] === 2)) { _.done = 1; continue; }
                             if (op[0] === 3 && (!r || (op[1] > r[0] && op[1] < r[3]))) { _.label = op[1]; break; }
-                            if (op[0] === 6 && r && _.label < r[1]) { _.label = r[1], sent = op; break; }
+                            if (op[0] === 6 && _.label < r[1]) { _.label = r[1], sent = op; break; }
                             if (r && _.label < r[2]) { _.label = r[2], _.stack.push(op); break; }
                             if (r[2]) { _.stack.pop(); }
                             _.trys.pop();
