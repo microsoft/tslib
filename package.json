@@ -6,7 +6,7 @@
     "licenses": [
         {
             "type": "Apache License 2.0",
-            "url": "https://github.com/Microsoft/TypeScript/blob/master/LICENSE.txt"
+            "url": "https://github.com/Microsoft/tslib/blob/master/LICENSE.txt"
         }
     ],
     "description": "Runtime library for TypeScript helper functions",
@@ -16,14 +16,15 @@
         "compiler",
         "language",
         "javascript",
-        "tslib"
+        "tslib",
+        "runtime"
     ],
     "bugs": {
         "url": "https://github.com/Microsoft/TypeScript/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Microsoft/TypeScript-Runtime.git"
+        "url": "https://github.com/Microsoft/tslib.git"
     },
     "main": "tslib.js",
     "typings": "tslib.d.ts"
