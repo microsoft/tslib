@@ -1,5 +1,5 @@
-[![Issue Stats](http://issuestats.com/github/Microsoft/TypeScript-Runtime/badge/pr)](http://issuestats.com/github/microsoft/typescript-runtime)
-[![Issue Stats](http://issuestats.com/github/Microsoft/TypeScript-Runtime/badge/issue)](http://issuestats.com/github/microsoft/typescript-runtime)
+[![Issue Stats](http://issuestats.com/github/Microsoft/tslib/badge/pr)](http://issuestats.com/github/microsoft/tslib)
+[![Issue Stats](http://issuestats.com/github/Microsoft/tslib/badge/issue)](http://issuestats.com/github/microsoft/tslib)
 
 # Runtime
 
