@@ -27,5 +27,6 @@
         "url": "https://github.com/Microsoft/tslib.git"
     },
     "main": "tslib.js",
+    "jsnext:main": "tslib.es6.js",
     "typings": "tslib.d.ts"
 }
