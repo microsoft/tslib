@@ -13,7 +13,7 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 /* global Reflect, Promise */
-export const __assign = Object.assign || function (t) {
+export var __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
@@ -21,28 +21,28 @@ export const __assign = Object.assign || function (t) {
     return t;
 };
 
-export const __extends = function (d, b) {
+export var __extends = function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
-export const __decorate = function (decorators, target, key, desc) {
+export var __decorate = function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-export const __param = function (paramIndex, decorator) {
+export var __param = function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 
-export const __metadata = function (metadataKey, metadataValue) {
+export var __metadata = function (metadataKey, metadataValue) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 };
 
-export const __awaiter = function (thisArg, _arguments, P, generator) {
+export var __awaiter = function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
@@ -51,7 +51,7 @@ export const __awaiter = function (thisArg, _arguments, P, generator) {
     });
 };
 
-export const __generator = function (thisArg, body) {
+export var __generator = function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t;
     return { next: verb(0), "throw": verb(1), "return": verb(2) };
     function verb(n) { return function (v) { return step([n, v]); }; }
