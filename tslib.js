@@ -58,12 +58,12 @@ var __generator;
         return t;
     };
 
-    __rest = (this && this.__rest) || function (s, e) {
+    __rest = function (s, e) {
         var t = {};
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && !e.indexOf(p))
             t[p] = s[p];
         return t;
-    };;
+    };
 
     __decorate = function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

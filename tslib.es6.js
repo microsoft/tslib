@@ -21,6 +21,13 @@ export const __assign = Object.assign || function (t) {
     return t;
 };
 
+export const __rest = function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && !e.indexOf(p))
+        t[p] = s[p];
+    return t;
+};
+
 export const __decorate = function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
