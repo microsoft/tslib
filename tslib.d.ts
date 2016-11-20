@@ -19,3 +19,13 @@ export declare function __param(paramIndex: number, decorator: Function): Functi
 export declare function __metadata(metadataKey: any, metadataValue: any): Function;
 export declare function __awaiter(thisArg: any, _arguments: any, P: Function, generator: Function): any;
 export declare function __generator(thisArg: any, body: Function): any;
+export declare function __rest(s: any, e: (string | symbol)[]): any;
+export declare function __asyncGenerator(thisArg: any, _arguments: any, generator: Function): any;
+export declare function __asyncValues(o: any): any;
+export declare function __asyncDelegator(o: any): any;
+export declare function __asyncStep(r: any): boolean | PromiseLike<boolean>;
+export declare function __values(o: any): any;
+export declare function __step(r: any): boolean;
+export declare function __close(r: any): any;
+export declare function __read(o: any, n?: number): any[];
+export declare function __spread(...args: any[]): any[];

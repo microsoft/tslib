@@ -20,6 +20,16 @@ var __param;
 var __metadata;
 var __awaiter;
 var __generator;
+var __rest;
+var __asyncGenerator;
+var __asyncValues;
+var __asyncDelegator;
+var __asyncStep;
+var __values;
+var __step;
+var __read;
+var __close;
+var __spread;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof System === "object" && typeof System.register === "function") {
@@ -82,8 +92,8 @@ var __generator;
     };
 
     __generator = function (thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t;
-        return { next: verb(0), "throw": verb(1), "return": verb(2) };
+        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
         function step(op) {
             if (f) throw new TypeError("Generator is already executing.");
@@ -109,6 +119,91 @@ var __generator;
         }
     };
 
+    __rest = function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
+        return t;
+    };
+
+    __asyncGenerator = function (thisArg, _arguments, generator) {
+        var g = generator.apply(thisArg, _arguments || []), q = [], c, i;
+        return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () { return this; }, i;
+        function verb(n) { return function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]), next(); }); }; }
+        function next() { if (!c && q.length) resume((c = q.shift())[0], c[1]); }
+        function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(c[3], e); } }
+        function step(r) { r.done ? settle(c[2], r) : r.value[0] === "yield" ? settle(c[2], { value: r.value[1], done: false }) : Promise.resolve(r.value[1]).then(r.value[0] === "delegate" ? delegate : fulfill, reject); }
+        function delegate(r) { step(r.done ? r : { value: ["yield", r.value], done: false }); }
+        function fulfill(value) { resume("next", value); }
+        function reject(value) { resume("throw", value); }
+        function settle(f, v) { c = void 0, f(v), next(); }
+    };
+
+    __asyncValues = function (o) {
+        return (m = o[Symbol.asyncIterator]) ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
+        var m;
+    };
+
+    __asyncDelegator = function (o) {
+        var i = { next: verb("next"), "throw": verb("throw", function (e) { throw e; }), "return": verb("return", function (v) { return { value: v, done: true }; }) };
+        return o = __asyncValues(o), i[Symbol.iterator] = function () { return this; }, i;
+        function verb(n, f) { return function (v) { return { value: ["delegate", (o[n] || f).call(o, v)], done: false }; }; }
+    };
+
+    __asyncStep = function (r) {
+        return !r.done && Promise.resolve(r.iterator.next()).then(function (_) { return !(r.done = (r.result = _).done); });
+    };
+
+    __values = function (o) {
+        return (i = typeof Symbol === "function" && o[Symbol.iterator] || 0) ? i.call(o) : {
+            next: function () {
+                return {
+                    done: d = d || i >= o.length,
+                    value: d ? void 0 : o[i++]
+                };
+            }
+        };
+        var i, d;
+    };
+
+    __step = function (r) {
+        return !(r.done || (r.done = (r.result = r.iterator.next()).done));
+    };
+
+    __close = function (r) {
+        return (m = !(r && r.done) && r.iterator["return"]) && m.call(r.iterator);
+        var m;
+    };
+
+    __read = function (o, n) {
+        if (!(m = typeof Symbol === "function" && o[Symbol.iterator]))
+            return o;
+        var m, i = m.call(o), ar = [], r, e;
+        try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+            ar.push(r.value);
+        }
+        catch (error) { e = { error: error }; }
+        finally {
+            try {
+                if (m = !(r && r.done) && i["return"]) m.call(i);
+            }
+            finally {
+                if (e) throw e.error;
+            }
+        }
+        return ar;
+    };
+
+    __spread = function () {
+        for (var ar = [], i = 0; i < arguments.length; i++)
+            ar = ar.concat(__read(arguments[i]));
+        return ar;
+    };
+
     exporter("__extends", __extends);
     exporter("__assign", __assign);
     exporter("__decorate", __decorate);
@@ -116,4 +211,14 @@ var __generator;
     exporter("__metadata", __metadata);
     exporter("__awaiter", __awaiter);
     exporter("__generator", __generator);
+    exporter("__rest", __rest);
+    exporter("__asyncGenerator", __asyncGenerator);
+    exporter("__asyncValues", __asyncValues);
+    exporter("__asyncDelegator", __asyncDelegator);
+    exporter("__asyncStep", __asyncStep);
+    exporter("__values", __values);
+    exporter("__step", __step);
+    exporter("__read", __read);
+    exporter("__close", __close);
+    exporter("__spread", __spread);
 });
