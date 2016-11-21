@@ -14,6 +14,7 @@ and limitations under the License.
 ***************************************************************************** */
 export declare function __extends(d: Function, b: Function): void;
 export declare function __assign(t: any, ...sources: any[]): any;
+export declare function __rest(t: any, propertyNames: string[]): any;
 export declare function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any;
 export declare function __param(paramIndex: number, decorator: Function): Function;
 export declare function __metadata(metadataKey: any, metadataValue: any): Function;

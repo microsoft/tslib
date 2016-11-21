@@ -15,6 +15,7 @@ and limitations under the License.
 /* global global, define, System, Reflect, Promise */
 var __extends;
 var __assign;
+var __rest;
 var __decorate;
 var __param;
 var __metadata;
@@ -57,6 +58,16 @@ var __generator;
         return t;
     };
 
+    __rest = function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
+        return t;
+    };
+
     __decorate = function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -75,7 +86,7 @@ var __generator;
     __awaiter = function (thisArg, _arguments, P, generator) {
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
             function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
             step((generator = generator.apply(thisArg, _arguments)).next());
         });
@@ -111,6 +122,7 @@ var __generator;
 
     exporter("__extends", __extends);
     exporter("__assign", __assign);
+    exporter("__rest", __rest);
     exporter("__decorate", __decorate);
     exporter("__param", __param);
     exporter("__metadata", __metadata);
