@@ -15,6 +15,7 @@ and limitations under the License.
 /* global global, define, System, Reflect, Promise */
 var __extends;
 var __assign;
+var __rest;
 var __decorate;
 var __param;
 var __metadata;
@@ -54,6 +55,16 @@ var __generator;
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
         }
+        return t;
+    };
+
+    __rest = function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
         return t;
     };
 
@@ -111,6 +122,7 @@ var __generator;
 
     exporter("__extends", __extends);
     exporter("__assign", __assign);
+    exporter("__rest", __rest);
     exporter("__decorate", __decorate);
     exporter("__param", __param);
     exporter("__metadata", __metadata);
