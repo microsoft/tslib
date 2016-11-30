@@ -15,12 +15,12 @@ and limitations under the License.
 /* global global, define, System, Reflect, Promise */
 var __extends;
 var __assign;
+var __rest;
 var __decorate;
 var __param;
 var __metadata;
 var __awaiter;
 var __generator;
-var __rest;
 var __asyncGenerator;
 var __asyncValues;
 var __asyncDelegator;
@@ -64,6 +64,16 @@ var __spread;
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
         }
+        return t;
+    };
+
+    __rest = function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
         return t;
     };
 
@@ -117,16 +127,6 @@ var __spread;
             } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
             if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
         }
-    };
-
-    __rest = function (s, e) {
-        var t = {};
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-        if (typeof Object.getOwnPropertySymbols === "function")
-            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-                t[p[i]] = s[p[i]];
-        return t;
     };
 
     __asyncGenerator = function (thisArg, _arguments, generator) {
@@ -206,12 +206,12 @@ var __spread;
 
     exporter("__extends", __extends);
     exporter("__assign", __assign);
+    exporter("__rest", __rest);
     exporter("__decorate", __decorate);
     exporter("__param", __param);
     exporter("__metadata", __metadata);
     exporter("__awaiter", __awaiter);
     exporter("__generator", __generator);
-    exporter("__rest", __rest);
     exporter("__asyncGenerator", __asyncGenerator);
     exporter("__asyncValues", __asyncValues);
     exporter("__asyncDelegator", __asyncDelegator);

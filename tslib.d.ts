@@ -14,12 +14,12 @@ and limitations under the License.
 ***************************************************************************** */
 export declare function __extends(d: Function, b: Function): void;
 export declare function __assign(t: any, ...sources: any[]): any;
+export declare function __rest(t: any, propertyNames: (string | symbol)[]): any;
 export declare function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any;
 export declare function __param(paramIndex: number, decorator: Function): Function;
 export declare function __metadata(metadataKey: any, metadataValue: any): Function;
 export declare function __awaiter(thisArg: any, _arguments: any, P: Function, generator: Function): any;
 export declare function __generator(thisArg: any, body: Function): any;
-export declare function __rest(s: any, e: (string | symbol)[]): any;
 export declare function __asyncGenerator(thisArg: any, _arguments: any, generator: Function): any;
 export declare function __asyncValues(o: any): any;
 export declare function __asyncDelegator(o: any): any;

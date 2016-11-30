@@ -15,29 +15,18 @@ npm install tslib
 
 # Usage
 
-Set the `noEmitHelpers` compiler option on the command line or in your tsconfig.json:
+Set the `importHelpers` compiler option on the command line:
 ```
-tsc --noEmitHelpers
-```
-
-Import tslib in your TypeScript sources:
-```ts
-import * as tslib from "tslib";
-
-const __extends = tslib.__extends;
-const __awaiter = tslib.__awaiter;
-
-...
+tsc --importHelpers file.ts
 ```
 
-Or use it globally on the web via `<script src="tslib.js"></script>`:
-
-```ts
-// <reference path="tslib.global.d.ts" />
-var __extends = __tslib.__extends;
-var __awaiter = __tslib.__awaiter;
-
-...
+or in your tsconfig.json:
+```json
+{
+    "compilerOptions": {
+        "importHelpers": true
+    }
+}
 ```
 
 ## Contribute
