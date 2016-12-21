@@ -24,11 +24,13 @@ bower install tslib
 # Usage
 
 Set the `importHelpers` compiler option on the command line:
+
 ```
 tsc --importHelpers file.ts
 ```
 
 or in your tsconfig.json:
+
 ```json
 {
     "compilerOptions": {
@@ -37,7 +39,7 @@ or in your tsconfig.json:
 }
 ```
 
-## Contribute
+# Contribute
 
 There are many ways to [contribute](https://github.com/Microsoft/TypeScript/blob/master/CONTRIBUTING.md) to TypeScript.
 * [Submit bugs](https://github.com/Microsoft/TypeScript/issues) and help us verify fixes as they are checked in.
@@ -47,10 +49,9 @@ There are many ways to [contribute](https://github.com/Microsoft/TypeScript/blob
 * [Contribute bug fixes](https://github.com/Microsoft/TypeScript/blob/master/CONTRIBUTING.md).
 * Read the language specification ([docx](http://go.microsoft.com/fwlink/?LinkId=267121), [pdf](http://go.microsoft.com/fwlink/?LinkId=267238)).
 
+# Documentation
 
-## Documentation
-
-*  [Quick tutorial](http://www.typescriptlang.org/Tutorial)
-*  [Programming handbook](http://www.typescriptlang.org/Handbook)
-*  [Language specification](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
-*  [Homepage](http://www.typescriptlang.org/)
+* [Quick tutorial](http://www.typescriptlang.org/Tutorial)
+* [Programming handbook](http://www.typescriptlang.org/Handbook)
+* [Language specification](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
+* [Homepage](http://www.typescriptlang.org/)
