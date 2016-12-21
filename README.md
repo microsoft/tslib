@@ -9,8 +9,16 @@ This is a runtime library for [TypeScript](http://www.typescriptlang.org/) that 
 
 For the latest stable version:
 
-```
+## npm
+
+```sh
 npm install tslib
+```
+
+## bower
+
+```sh
+bower install tslib
 ```
 
 # Usage
