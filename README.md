@@ -39,6 +39,23 @@ or in your tsconfig.json:
 }
 ```
 
+#### For bower users
+
+You will need to add a `paths` mapping for `tslib`, e.g.:
+
+```json
+{
+    "compilerOptions": {
+        "module": "amd",
+        "importHelpers": true,
+        "baseUrl": "./",
+        "paths": {
+            "tslib" : ["bower_components/tslib/tslib.d.ts"]
+        }
+    }
+}
+```
+
 # Contribute
 
 There are many ways to [contribute](https://github.com/Microsoft/TypeScript/blob/master/CONTRIBUTING.md) to TypeScript.
