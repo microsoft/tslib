@@ -1,6 +1,3 @@
-[![Issue Stats](http://issuestats.com/github/Microsoft/tslib/badge/pr)](http://issuestats.com/github/microsoft/tslib)
-[![Issue Stats](http://issuestats.com/github/Microsoft/tslib/badge/issue)](http://issuestats.com/github/microsoft/tslib)
-
 # Runtime
 
 This is a runtime library for [TypeScript](http://www.typescriptlang.org/) that contains all of the TypeScript helper functions.
