@@ -4,7 +4,7 @@
     "Microsoft Corp."
   ],
   "homepage": "http://typescriptlang.org/",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "license": "Apache License 2.0",
   "description": "Runtime library for TypeScript helper functions",
   "keywords": [
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Draccoz/tslib.git"
+    "url": "https://github.com/Microsoft/tslib.git"
   },
   "main": "tslib.js",
   "ignore": [
