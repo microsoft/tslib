@@ -23,13 +23,7 @@ var __awaiter;
 var __generator;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
-    if (typeof System === "object" && typeof System.register === "function") {
-        System.register("tslib", [], function (exporter) {
-            factory(createExporter(root, exporter));
-            return { setters: [], execute: function() { } };
-        });
-    }
-    else if (typeof define === "function" && define.amd) {
+    if (typeof define === "function" && define.amd) {
         define("tslib", ["exports"], function (exports) { factory(createExporter(root, createExporter(exports))); });
     }
     else if (typeof module === "object" && typeof module.exports === "object") {
@@ -38,7 +32,6 @@ var __generator;
     else {
         factory(createExporter(root));
     }
-
     function createExporter(exports, previous) {
         return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
     }
