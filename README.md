@@ -18,6 +18,12 @@ npm install tslib
 bower install tslib
 ```
 
+## JSPM
+
+```sh
+jspm install npm:tslib
+```
+
 # Usage
 
 Set the `importHelpers` compiler option on the command line:
@@ -36,9 +42,9 @@ or in your tsconfig.json:
 }
 ```
 
-#### For bower users
+#### For bower and JSPM users
 
-You will need to add a `paths` mapping for `tslib`, e.g.:
+You will need to add a `paths` mapping for `tslib`, e.g. For Bower users:
 
 ```json
 {
@@ -52,6 +58,22 @@ You will need to add a `paths` mapping for `tslib`, e.g.:
     }
 }
 ```
+
+For JSPM users:
+
+```json
+{
+    "compilerOptions": {
+        "module": "System",
+        "importHelpers": true,
+        "baseUrl": "./",
+        "paths": {
+            "tslib" : ["jspm_packages/npm/tslib@1.3.0/tslib.d.ts"]
+        }
+    }
+}
+```
+
 
 # Contribute
 
