@@ -32,13 +32,7 @@ var __close;
 var __spread;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
-    if (typeof System === "object" && typeof System.register === "function") {
-        System.register("tslib", [], function (exporter) {
-            factory(createExporter(root, exporter));
-            return { setters: [], execute: function() { } };
-        });
-    }
-    else if (typeof define === "function" && define.amd) {
+    if (typeof define === "function" && define.amd) {
         define("tslib", ["exports"], function (exports) { factory(createExporter(root, createExporter(exports))); });
     }
     else if (typeof module === "object" && typeof module.exports === "object") {
@@ -47,7 +41,6 @@ var __spread;
     else {
         factory(createExporter(root));
     }
-
     function createExporter(exports, previous) {
         return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
     }
@@ -97,7 +90,7 @@ var __spread;
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
             function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
             function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments)).next());
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
 
