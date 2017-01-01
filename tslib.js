@@ -21,6 +21,7 @@ var __param;
 var __metadata;
 var __awaiter;
 var __generator;
+var __exportStar;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof define === "function" && define.amd) {
@@ -113,6 +114,10 @@ var __generator;
         }
     };
 
+    __exportStar = function (m, exports) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    };
+
     exporter("__extends", __extends);
     exporter("__assign", __assign);
     exporter("__rest", __rest);
@@ -121,4 +126,5 @@ var __generator;
     exporter("__metadata", __metadata);
     exporter("__awaiter", __awaiter);
     exporter("__generator", __generator);
+    exporter("__exportStar", __exportStar);
 });

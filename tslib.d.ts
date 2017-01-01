@@ -20,3 +20,4 @@ export declare function __param(paramIndex: number, decorator: Function): Functi
 export declare function __metadata(metadataKey: any, metadataValue: any): Function;
 export declare function __awaiter(thisArg: any, _arguments: any, P: Function, generator: Function): any;
 export declare function __generator(thisArg: any, body: Function): any;
+export declare function __exportStar(m: any, exports: any): void;
