@@ -89,6 +89,40 @@ export function __generator(thisArg, body) {
     }
 };
 
+export function __values(o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+
+export function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+
+export function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
+
 export function __asyncGenerator(thisArg, _arguments, generator) {
     var g = generator.apply(thisArg, _arguments || []), q = [], c, i;
     return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () { return this; }, i;
@@ -102,64 +136,13 @@ export function __asyncGenerator(thisArg, _arguments, generator) {
     function settle(f, v) { c = void 0, f(v), next(); }
 };
 
-export function __asyncValues(o) {
-    return (m = o[Symbol.asyncIterator]) ? m.call(o) : o[Symbol.iterator]();
-    var m;
-};
-
 export function __asyncDelegator(o) {
     var i = { next: verb("next"), "throw": verb("throw", function (e) { throw e; }), "return": verb("return", function (v) { return { value: v, done: true }; }) };
     return o = __asyncValues(o), i[Symbol.iterator] = function () { return this; }, i;
     function verb(n, f) { return function (v) { return { value: ["delegate", (o[n] || f).call(o, v)], done: false }; }; }
 };
 
-export function __asyncStep(r) {
-    return !r.done && Promise.resolve(r.iterator.next()).then(function (_) { return !(r.done = (r.result = _).done); });
-};
-
-export function __values(o) {
-    return (i = typeof Symbol === "function" && o[Symbol.iterator] || 0) ? i.call(o) : {
-        next: function () {
-            return {
-                done: d = d || i >= o.length,
-                value: d ? void 0 : o[i++]
-            };
-        }
-    };
-    var i, d;
-};
-
-export function __step(r) {
-    return !(r.done || (r.done = (r.result = r.iterator.next()).done));
-};
-
-export function __close(r) {
-    return (m = !(r && r.done) && r.iterator["return"]) && m.call(r.iterator);
-    var m;
-};
-
-export function __read(o, n) {
-    if (!(m = typeof Symbol === "function" && o[Symbol.iterator]))
-        return o;
-    var m, i = m.call(o), ar = [], r, e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
-        ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (m = !(r && r.done) && i["return"]) m.call(i);
-        }
-        finally {
-            if (e) throw e.error;
-        }
-    }
-    return ar;
-};
-
-export function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
+export function __asyncValues(o) {
+    var m = o[Symbol.asyncIterator];
+    return m ? m.call(o) : __values(o);
 };

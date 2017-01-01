@@ -21,15 +21,12 @@ var __param;
 var __metadata;
 var __awaiter;
 var __generator;
-var __asyncGenerator;
-var __asyncValues;
-var __asyncDelegator;
-var __asyncStep;
 var __values;
-var __step;
 var __read;
-var __close;
 var __spread;
+var __asyncGenerator;
+var __asyncDelegator;
+var __asyncValues;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof define === "function" && define.amd) {
@@ -122,6 +119,40 @@ var __spread;
         }
     };
 
+    __values = function (o) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+        if (m) return m.call(o);
+        return {
+            next: function () {
+                if (o && i >= o.length) o = void 0;
+                return { value: o && o[i++], done: !o };
+            }
+        };
+    };
+
+    __read = function (o, n) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator];
+        if (!m) return o;
+        var i = m.call(o), r, ar = [], e;
+        try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+        }
+        catch (error) { e = { error: error }; }
+        finally {
+            try {
+                if (r && !r.done && (m = i["return"])) m.call(i);
+            }
+            finally { if (e) throw e.error; }
+        }
+        return ar;
+    };
+
+    __spread = function () {
+        for (var ar = [], i = 0; i < arguments.length; i++)
+            ar = ar.concat(__read(arguments[i]));
+        return ar;
+    };
+
     __asyncGenerator = function (thisArg, _arguments, generator) {
         var g = generator.apply(thisArg, _arguments || []), q = [], c, i;
         return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () { return this; }, i;
@@ -135,66 +166,15 @@ var __spread;
         function settle(f, v) { c = void 0, f(v), next(); }
     };
 
-    __asyncValues = function (o) {
-        return (m = o[Symbol.asyncIterator]) ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-        var m;
-    };
-
     __asyncDelegator = function (o) {
         var i = { next: verb("next"), "throw": verb("throw", function (e) { throw e; }), "return": verb("return", function (v) { return { value: v, done: true }; }) };
         return o = __asyncValues(o), i[Symbol.iterator] = function () { return this; }, i;
         function verb(n, f) { return function (v) { return { value: ["delegate", (o[n] || f).call(o, v)], done: false }; }; }
     };
 
-    __asyncStep = function (r) {
-        return !r.done && Promise.resolve(r.iterator.next()).then(function (_) { return !(r.done = (r.result = _).done); });
-    };
-
-    __values = function (o) {
-        return (i = typeof Symbol === "function" && o[Symbol.iterator] || 0) ? i.call(o) : {
-            next: function () {
-                return {
-                    done: d = d || i >= o.length,
-                    value: d ? void 0 : o[i++]
-                };
-            }
-        };
-        var i, d;
-    };
-
-    __step = function (r) {
-        return !(r.done || (r.done = (r.result = r.iterator.next()).done));
-    };
-
-    __close = function (r) {
-        return (m = !(r && r.done) && r.iterator["return"]) && m.call(r.iterator);
-        var m;
-    };
-
-    __read = function (o, n) {
-        if (!(m = typeof Symbol === "function" && o[Symbol.iterator]))
-            return o;
-        var m, i = m.call(o), ar = [], r, e;
-        try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
-            ar.push(r.value);
-        }
-        catch (error) { e = { error: error }; }
-        finally {
-            try {
-                if (m = !(r && r.done) && i["return"]) m.call(i);
-            }
-            finally {
-                if (e) throw e.error;
-            }
-        }
-        return ar;
-    };
-
-    __spread = function () {
-        for (var ar = [], i = 0; i < arguments.length; i++)
-            ar = ar.concat(__read(arguments[i]));
-        return ar;
+    __asyncValues = function (o) {
+        var m = o[Symbol.asyncIterator];
+        return m ? m.call(o) : __values(o);
     };
 
     exporter("__extends", __extends);
@@ -205,13 +185,10 @@ var __spread;
     exporter("__metadata", __metadata);
     exporter("__awaiter", __awaiter);
     exporter("__generator", __generator);
-    exporter("__asyncGenerator", __asyncGenerator);
-    exporter("__asyncValues", __asyncValues);
-    exporter("__asyncDelegator", __asyncDelegator);
-    exporter("__asyncStep", __asyncStep);
     exporter("__values", __values);
-    exporter("__step", __step);
     exporter("__read", __read);
-    exporter("__close", __close);
     exporter("__spread", __spread);
+    exporter("__asyncGenerator", __asyncGenerator);
+    exporter("__asyncDelegator", __asyncDelegator);
+    exporter("__asyncValues", __asyncValues);
 });
