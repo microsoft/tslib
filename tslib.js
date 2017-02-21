@@ -21,6 +21,7 @@ var __param;
 var __metadata;
 var __awaiter;
 var __generator;
+var __exportStar;
 var __values;
 var __read;
 var __spread;
@@ -43,8 +44,12 @@ var __asyncValues;
     }
 })
 (function (exporter) {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
     __extends = function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
@@ -119,6 +124,9 @@ var __asyncValues;
         }
     };
 
+    __exportStar = function (m, exports) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    };
     __values = function (o) {
         var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
         if (m) return m.call(o);
@@ -185,6 +193,7 @@ var __asyncValues;
     exporter("__metadata", __metadata);
     exporter("__awaiter", __awaiter);
     exporter("__generator", __generator);
+    exporter("__exportStar", __exportStar);
     exporter("__values", __values);
     exporter("__read", __read);
     exporter("__spread", __spread);
