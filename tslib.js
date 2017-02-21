@@ -127,6 +127,7 @@ var __asyncValues;
     __exportStar = function (m, exports) {
         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
     };
+
     __values = function (o) {
         var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
         if (m) return m.call(o);
@@ -162,6 +163,7 @@ var __asyncValues;
     };
 
     __asyncGenerator = function (thisArg, _arguments, generator) {
+        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
         var g = generator.apply(thisArg, _arguments || []), q = [], c, i;
         return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () { return this; }, i;
         function verb(n) { return function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]), next(); }); }; }
@@ -181,8 +183,9 @@ var __asyncValues;
     };
 
     __asyncValues = function (o) {
+        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
         var m = o[Symbol.asyncIterator];
-        return m ? m.call(o) : __values(o);
+        return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
     };
 
     exporter("__extends", __extends);
