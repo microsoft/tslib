@@ -5,7 +5,7 @@
   ],
   "homepage": "http://typescriptlang.org/",
   "version": "1.6.0",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "description": "Runtime library for TypeScript helper functions",
   "keywords": [
     "TypeScript",
