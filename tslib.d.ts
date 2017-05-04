@@ -24,6 +24,7 @@ export declare function __exportStar(m: any, exports: any): void;
 export declare function __values(o: any): any;
 export declare function __read(o: any, n?: number): any[];
 export declare function __spread(...args: any[]): any[];
+export declare function __await(v: any): any;
 export declare function __asyncGenerator(thisArg: any, _arguments: any, generator: Function): any;
 export declare function __asyncDelegator(o: any): any;
 export declare function __asyncValues(o: any): any;
