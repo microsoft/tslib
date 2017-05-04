@@ -30,7 +30,7 @@ export var __assign = Object.assign || function __assign(t) {
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
     }
     return t;
-};
+}
 
 export function __rest(s, e) {
     var t = {};
@@ -107,7 +107,7 @@ export function __values(o) {
             return { value: o && o[i++], done: !o };
         }
     };
-};
+}
 
 export function __read(o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
@@ -124,36 +124,38 @@ export function __read(o, n) {
         finally { if (e) throw e.error; }
     }
     return ar;
-};
+}
 
 export function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
-};
+}
+
+export function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
 
 export function __asyncGenerator(thisArg, _arguments, generator) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), q = [], c, i;
-    return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { return function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]), next(); }); }; }
-    function next() { if (!c && q.length) resume((c = q.shift())[0], c[1]); }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(c[3], e); } }
-    function step(r) { r.done ? settle(c[2], r) : Promise.resolve(r.value[1]).then(r.value[0] === "yield" ? send : fulfill, reject); }
-    function send(value) { settle(c[2], { value: value, done: false }); }
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);  }
     function fulfill(value) { resume("next", value); }
     function reject(value) { resume("throw", value); }
-    function settle(f, v) { c = void 0, f(v), next(); }
-};
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
 
 export function __asyncDelegator(o) {
-    var i = { next: verb("next"), "throw": verb("throw", function (e) { throw e; }), "return": verb("return", function (v) { return { value: v, done: true }; }) }, p;
-    return o = __asyncValues(o), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { return function (v) { return v = p && n === "throw" ? f(v) : p && v.done ? v : { value: p ? ["yield", v.value] : ["await", (o[n] || f).call(o, v)], done: false }, p = !p, v; }; }
-};
+    var i, p;
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n) { if (o[n]) i[n] = function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : v; }; }
+}
 
 export function __asyncValues(o) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var m = o[Symbol.asyncIterator];
     return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-};
+}

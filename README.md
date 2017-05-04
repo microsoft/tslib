@@ -9,19 +9,31 @@ For the latest stable version:
 ## npm
 
 ```sh
+# TypeScript 2.3.3 or later
 npm install tslib
+
+# TypeScript 2.3.2 or earlier
+npm install tslib@1.6.1
 ```
 
 ## bower
 
 ```sh
+# TypeScript 2.3.3 or later
 bower install tslib
+
+# TypeScript 2.3.2 or earlier
+bower install tslib@1.6.1
 ```
 
 ## JSPM
 
 ```sh
+# TypeScript 2.3.3 or later
 jspm install npm:tslib
+
+# TypeScript 2.3.2 or earlier
+jspm install npm:tslib@1.6.1
 ```
 
 # Usage
@@ -68,7 +80,7 @@ For JSPM users:
         "importHelpers": true,
         "baseUrl": "./",
         "paths": {
-            "tslib" : ["jspm_packages/npm/tslib@1.6.1/tslib.d.ts"]
+            "tslib" : ["jspm_packages/npm/tslib@1.7.0/tslib.d.ts"]
         }
     }
 }
