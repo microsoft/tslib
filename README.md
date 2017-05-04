@@ -80,7 +80,7 @@ For JSPM users:
         "importHelpers": true,
         "baseUrl": "./",
         "paths": {
-            "tslib" : ["jspm_packages/npm/tslib@1.6.1/tslib.d.ts"]
+            "tslib" : ["jspm_packages/npm/tslib@1.7.0/tslib.d.ts"]
         }
     }
 }
