@@ -54,6 +54,15 @@ or in your tsconfig.json:
 }
 ```
 
+#### For npm users
+You don't need to do anything if `moduleResolution` option is `"node"`. If it's not (e.g. it implicitly equals to `"classic"` when `module` option is `"amd"`) then you will need to add a `paths` mapping:
+```json
+    "baseUrl": ".", // This must be specified if "paths" is.
+    "paths": {
+      "tslib": ["node_modules/tslib/tslib.d.ts"] // This mapping is relative to "baseUrl"
+    }
+```
+
 #### For bower and JSPM users
 
 You will need to add a `paths` mapping for `tslib`, e.g. For Bower users:
