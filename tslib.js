@@ -40,7 +40,12 @@ var __asyncValues;
         factory(createExporter(root));
     }
     function createExporter(exports, previous) {
-        exports.__esModule = true;
+        if (typeof Object.defineProperty === "function") {
+            Object.defineProperty(exports, "__esModule", { value: true });
+        }
+        else {
+            exports.__esModule = true;
+        }
         return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
     }
 })
