@@ -40,7 +40,7 @@ var __asyncValues;
         factory(createExporter(root));
     }
     function createExporter(exports, previous) {
-        if (typeof Object.defineProperty === "function") {
+        if (typeof Object.create === "function") {
             Object.defineProperty(exports, "__esModule", { value: true });
         }
         else {
