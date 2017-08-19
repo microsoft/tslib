@@ -30,10 +30,10 @@ bower install tslib@1.6.1
 
 ```sh
 # TypeScript 2.3.3 or later
-jspm install npm:tslib
+jspm install tslib
 
 # TypeScript 2.3.2 or earlier
-jspm install npm:tslib@1.6.1
+jspm install tslib@1.6.1
 ```
 
 # Usage
@@ -76,11 +76,11 @@ For JSPM users:
 ```json
 {
     "compilerOptions": {
-        "module": "System",
+        "module": "system",
         "importHelpers": true,
         "baseUrl": "./",
         "paths": {
-            "tslib" : ["jspm_packages/npm/tslib@1.7.0/tslib.d.ts"]
+            "tslib" : ["jspm_packages/npm/tslib@1.7.1/tslib.d.ts"]
         }
     }
 }
