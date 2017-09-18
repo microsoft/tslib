@@ -159,3 +159,11 @@ export function __asyncValues(o) {
     var m = o[Symbol.asyncIterator];
     return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
 }
+
+export function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) {
+        return Object.defineProperty(cooked, "raw", { value: raw });
+    }
+    cooked.raw = raw;
+    return cooked;
+};
