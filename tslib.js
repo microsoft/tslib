@@ -199,10 +199,7 @@ var __makeTemplateObject;
     };
 
     __makeTemplateObject = function (cooked, raw) {
-        if (Object.defineProperty) {
-            return Object.defineProperty(cooked, "raw", { value: raw });
-        }
-        cooked.raw = raw;
+        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
         return cooked;
     };
 
