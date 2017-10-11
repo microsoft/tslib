@@ -108,7 +108,7 @@ For JSPM users:
         "importHelpers": true,
         "baseUrl": "./",
         "paths": {
-            "tslib" : ["jspm_packages/npm/tslib@1.7.1/tslib.d.ts"]
+            "tslib" : ["jspm_packages/npm/tslib@1.8.0/tslib.d.ts"]
         }
     }
 }
