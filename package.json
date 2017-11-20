@@ -21,7 +21,23 @@
         "type": "git",
         "url": "https://github.com/Microsoft/tslib.git"
     },
-    "main": "tslib.js",
+    "files": [
+        "CopyrightNotice.txt",
+        "README.md",
+        "docs",
+        "tslib.d.ts",
+        "tslib.es6.js",
+        "tslib.js",
+        "LICENSE.txt",
+        "bower.json",
+        "tslib.es6.html",
+        "tslib.html",
+        "tslib.mjs"
+    ],
+    "scripts": {
+        "prepublishOnly": "cp tslib.es6.js tslib.mjs"
+    },
+    "main": "tslib",
     "module": "tslib.es6.js",
     "jsnext:main": "tslib.es6.js",
     "typings": "tslib.d.ts"
