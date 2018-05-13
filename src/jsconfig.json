@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "target": "es3",
+        "lib": ["es5"],
+        "noEmit": true
+    },
+    "files": [
+        "__extends.js",
+        "__assign.js",
+        "__rest.js",
+        "__decorate.js",
+        "__param.js",
+        "__metadata.js",
+        "__awaiter.js",
+        "__generator.js",
+        "__exportStar.js",
+        "__values.js",
+        "__read.js",
+        "__spread.js",
+        "__await.js",
+        "__asyncGenerator.js",
+        "__asyncDelegator.js",
+        "__asyncValues.js",
+        "__makeTemplateObject.js",
+        "__importStar.js",
+        "__importDefault.js"
+    ]
+}

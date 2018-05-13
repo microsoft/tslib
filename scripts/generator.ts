@@ -7,8 +7,8 @@ const rootDir = path.resolve(__dirname, `..`);
 const srcDir = path.resolve(rootDir, `src`);
 const copyrightNotice = fs.readFileSync(path.resolve(rootDir, "CopyrightNotice.txt"), "utf8");
 const umdGlobalsExporter = fs.readFileSync(path.resolve(srcDir, "umdGlobals.js"), "utf8");
+const umdDepsExporter = fs.readFileSync(path.resolve(srcDir, "umdDeps.js"), "utf8");
 const umdExporter = fs.readFileSync(path.resolve(srcDir, "umd.js"), "utf8");
-const tslibFile = path.resolve(srcDir, "tslib.js");
 const indentStrings: string[] = ["", "    "];
 const MAX_SMI_X86 = 0x3fff_ffff;
 
@@ -70,6 +70,7 @@ main();
 function main() {
     const sourceFiles = parseSources();
     generateSingleFileVariations(sourceFiles, rootDir);
+    generateMultipleFileVariations(sourceFiles, rootDir + `/lib`);
 }
 
 function getIndentString(level: number) {
@@ -125,16 +126,34 @@ function parse(file: string) {
     return sourceFile;
 }
 
+function getSourceFileNames() {
+    const configFile = path.resolve(srcDir, "jsconfig.json");
+    const result = ts.parseConfigFileTextToJson(configFile, fs.readFileSync(configFile, "utf8"));
+    if (result.error) {
+        console.error(ts.formatDiagnosticsWithColorAndContext([result.error], {
+            getCanonicalFileName: name => name,
+            getCurrentDirectory: () => process.cwd(),
+            getNewLine: () => os.EOL
+        }));
+        process.exit();
+    }
+
+    return result.config.files as string[];
+}
+
 function parseSources() {
+    const files = getSourceFileNames();
     const sourceFiles: ts.SourceFile[] = [];
-    sourceFiles.push(parse(tslibFile));
+    for (const file of files) {
+        sourceFiles.push(parse(path.resolve(srcDir, file)));
+    }
     return sourceFiles;
 }
 
 function generateSingleFileVariations(sourceFiles: ts.SourceFile[], outDir: string) {
-    generateSingleFile(sourceFiles, path.resolve(outDir, "tslib.js"), LibKind.UmdGlobal);
-    generateSingleFile(sourceFiles, path.resolve(outDir, "tslib.umd.js"), LibKind.Umd);
-    generateSingleFile(sourceFiles, path.resolve(outDir, "tslib.es6.js"), LibKind.ES2015);
+    generateSingleFile(sourceFiles, outDir + `/tslib.js`, LibKind.UmdGlobal);
+    generateSingleFile(sourceFiles, outDir + `/tslib.umd.js`, LibKind.Umd);
+    generateSingleFile(sourceFiles, outDir + `/tslib.es6.js`, LibKind.ES2015);
 }
 
 function generateSingleFile(sourceFiles: ts.SourceFile[], outFile: string, libKind: LibKind) {
@@ -142,6 +161,19 @@ function generateSingleFile(sourceFiles: ts.SourceFile[], outFile: string, libKi
     const output = write(bundle, libKind);
     mkdirpSync(path.dirname(outFile));
     fs.writeFileSync(outFile, output, "utf8");
+}
+
+function generateMultipleFileVariations(sourceFiles: ts.SourceFile[], outDir: string) {
+    generateMultipleFileVariation(sourceFiles, outDir, LibKind.Umd);
+}
+
+function generateMultipleFileVariation(sourceFiles: ts.SourceFile[], outDir: string, libKind: LibKind.Umd) {
+    for (const sourceFile of sourceFiles) {
+        const output = write(sourceFile, libKind);
+        const outFile = path.resolve(outDir, path.basename(sourceFile.fileName));
+        mkdirpSync(path.dirname(outFile));
+        fs.writeFileSync(outFile, output, "utf8");
+    }
 }
 
 function formatMessage(node: ts.Node, message: string) {
@@ -157,15 +189,22 @@ function reportError(node: ts.Node, message: string) {
     console.error(formatMessage(node, message));
 }
 
-function write(source: ts.Bundle, libKind: LibKind) {
+function write(source: ts.Bundle | ts.SourceFile, libKind: LibKind) {
     const globalWriter = new TextWriter();
     const bodyWriter = new TextWriter();
     const exportWriter = new TextWriter();
+    let dependencies: string[] | undefined;
     let sourceFile: ts.SourceFile | undefined;
+    let isSingleFileEmit: boolean;
+    let tempCounter = 0;
 
-    return writeBundle(source);
+    switch (source.kind) {
+        case ts.SyntaxKind.Bundle: return writeBundle(source);
+        case ts.SyntaxKind.SourceFile: return writeSourceFile(source);
+    }
 
     function writeBundle(node: ts.Bundle) {
+        isSingleFileEmit = true;
         switch (libKind) {
             case LibKind.Umd:
             case LibKind.UmdGlobal:
@@ -199,11 +238,33 @@ function write(source: ts.Bundle, libKind: LibKind) {
         return writer.toString();
     }
 
+    function writeSourceFile(node: ts.SourceFile) {
+        isSingleFileEmit = false;
+        switch (libKind) {
+            case LibKind.Umd: return writeUmdSourceFile(node);
+        }
+    }
+
+    function writeUmdSourceFile(node: ts.SourceFile) {
+        visit(node);
+        const writer = new TextWriter();
+        writer.writeLines(copyrightNotice);
+        writer.writeLines(dependencies ? umdDepsExporter : umdExporter);
+        writer.writeLine(`(${dependencies ? `${JSON.stringify(dependencies)}, ` : ``}function (exporter${dependencies ? `, require` : ``}) {`);
+        writer.indent++;
+        writer.writeLines(bodyWriter.toString());
+        writer.writeLines(exportWriter.toString());
+        writer.indent--;
+        writer.writeLine(`});`);
+        return writer.toString();
+    }
+
     function visit(node: ts.Node) {
         switch (node.kind) {
             case ts.SyntaxKind.Bundle: return visitBundle(<ts.Bundle>node);
             case ts.SyntaxKind.SourceFile: return visitSourceFile(<ts.SourceFile>node);
             case ts.SyntaxKind.VariableStatement: return visitVariableStatement(<ts.VariableStatement>node);
+            case ts.SyntaxKind.ImportDeclaration: return visitImportDeclaration(<ts.ImportDeclaration>node);
             case ts.SyntaxKind.FunctionDeclaration: return visitFunctionDeclaration(<ts.FunctionDeclaration>node);
             default:
                 reportError(node, `${ts.SyntaxKind[node.kind]} not supported at the top level.`);
@@ -218,6 +279,36 @@ function write(source: ts.Bundle, libKind: LibKind) {
     function visitSourceFile(node: ts.SourceFile) {
         sourceFile = node;
         node.statements.forEach(visit);
+    }
+
+    function visitImportDeclaration(node: ts.ImportDeclaration) {
+        if (isSingleFileEmit || libKind !== LibKind.Umd) return undefined;
+        if (!node.importClause || !ts.isStringLiteral(node.moduleSpecifier)) return undefined;
+        const moduleSpecifier = node.moduleSpecifier.text;
+        if (!dependencies) dependencies = [];
+        dependencies.push(moduleSpecifier);
+        const moduleReference = `require(${JSON.stringify(moduleSpecifier)})`;
+        if (!node.importClause.namedBindings) {
+            bodyWriter.writeLine(`var ${ts.idText(node.importClause.name)} = ${moduleReference}["default"];`);
+        }
+        else if (ts.isNamespaceImport(node.importClause.namedBindings)) {
+            bodyWriter.writeLine(`var ${ts.idText(node.importClause.namedBindings.name)} = ${moduleReference};`);
+        }
+        else if (node.importClause.namedBindings.elements.length === 1) {
+            const namedImport = node.importClause.namedBindings.elements[0];
+            bodyWriter.writeLine(`var ${ts.idText(namedImport.name)} = ${moduleReference}.${ts.idText(namedImport.propertyName || namedImport.name)};`)
+        }
+        else if (node.importClause.namedBindings.elements.length > 1) {
+            const moduleName = `module_${tempCounter++}`;
+            bodyWriter.write(`var ${moduleName} = ${moduleReference}`);
+            bodyWriter.indent++;
+            for (const element of node.importClause.namedBindings.elements) {
+                bodyWriter.writeLine(`,`);
+                bodyWriter.write(`${ts.idText(element.name)} = ${moduleName}.${ts.idText(element.propertyName || element.name)}`);
+            }
+            bodyWriter.indent--;
+            bodyWriter.writeLine(`;`);
+        }
     }
 
     function visitFunctionDeclaration(node: ts.FunctionDeclaration) {
@@ -260,7 +351,7 @@ function write(source: ts.Bundle, libKind: LibKind) {
             }
 
             if (libKind === LibKind.Umd || libKind === LibKind.UmdGlobal) {
-                if (libKind === LibKind.UmdGlobal) {
+                if (libKind === LibKind.UmdGlobal && isSingleFileEmit) {
                     globalWriter.writeLine(`var ${ts.idText(variable.name)};`);
                     bodyWriter.writeLines(`${ts.idText(variable.name)} = ${variable.initializer.getText()};`);
                 }
