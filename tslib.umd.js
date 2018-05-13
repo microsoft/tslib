@@ -13,46 +13,21 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 
-var __extends;
-var __assign;
-var __rest;
-var __decorate;
-var __param;
-var __metadata;
-var __awaiter;
-var __generator;
-var __exportStar;
-var __values;
-var __read;
-var __spread;
-var __await;
-var __asyncGenerator;
-var __asyncDelegator;
-var __asyncValues;
-var __makeTemplateObject;
-var __importStar;
-var __importDefault;
 (function (factory) {
-    var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof define === "function" && define.amd) {
-        define("tslib", ["exports"], function (exports) { factory(createExporter(root, createExporter(exports))); });
+        define("tslib", ["exports"], function (exports) { factory(createExporter(exports)); });
     }
     else if (typeof module === "object" && typeof module.exports === "object") {
-        factory(createExporter(root, createExporter(module.exports)));
+        factory(createExporter(module.exports));
     }
-    else {
-        factory(createExporter(root));
-    }
-    function createExporter(exports, previous) {
-        if (exports !== root) {
-            if (typeof Object.create === "function") {
-                Object.defineProperty(exports, "__esModule", { value: true });
-            }
-            else {
-                exports.__esModule = true;
-            }
+    function createExporter(exports) {
+        if (typeof Object.create === "function") {
+            Object.defineProperty(exports, "__esModule", { value: true });
         }
-        return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
+        else {
+            exports.__esModule = true;
+        }
+        return function (id, v) { return exports[id] = v; };
     }
 })
 (function (exporter) {
@@ -60,13 +35,13 @@ var __importDefault;
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
 
-    __extends = function (d, b) {
+    function __extends(d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
+    }
 
-    __assign = Object.assign || function (t) {
+    var __assign = Object.assign || function (t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
@@ -74,7 +49,7 @@ var __importDefault;
         return t;
     };
 
-    __rest = function (s, e) {
+    function __rest(s, e) {
         var t = {};
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
             t[p] = s[p];
@@ -82,33 +57,33 @@ var __importDefault;
             for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
                 t[p[i]] = s[p[i]];
         return t;
-    };
+    }
 
-    __decorate = function (decorators, target, key, desc) {
+    function __decorate(decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
+    }
 
-    __param = function (paramIndex, decorator) {
+    function __param(paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
-    };
+    }
 
-    __metadata = function (metadataKey, metadataValue) {
+    function __metadata(metadataKey, metadataValue) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-    };
+    }
 
-    __awaiter = function (thisArg, _arguments, P, generator) {
+    function __awaiter(thisArg, _arguments, P, generator) {
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
             function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
             function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
-    };
+    }
 
-    __generator = function (thisArg, body) {
+    function __generator(thisArg, body) {
         var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
         return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
@@ -134,13 +109,13 @@ var __importDefault;
             } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
             if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
         }
-    };
+    }
 
-    __exportStar = function (m, exports) {
+    function __exportStar(m, exports) {
         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-    };
+    }
 
-    __values = function (o) {
+    function __values(o) {
         var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
         if (m) return m.call(o);
         return {
@@ -149,9 +124,9 @@ var __importDefault;
                 return { value: o && o[i++], done: !o };
             }
         };
-    };
+    }
 
-    __read = function (o, n) {
+    function __read(o, n) {
         var m = typeof Symbol === "function" && o[Symbol.iterator];
         if (!m) return o;
         var i = m.call(o), r, ar = [], e;
@@ -166,19 +141,19 @@ var __importDefault;
             finally { if (e) throw e.error; }
         }
         return ar;
-    };
+    }
 
-    __spread = function () {
+    function __spread() {
         for (var ar = [], i = 0; i < arguments.length; i++)
             ar = ar.concat(__read(arguments[i]));
         return ar;
-    };
+    }
 
-    __await = function (v) {
+    function __await(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);
-    };
+    }
 
-    __asyncGenerator = function (thisArg, _arguments, generator) {
+    function __asyncGenerator(thisArg, _arguments, generator) {
         if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
         var g = generator.apply(thisArg, _arguments || []), i, q = [];
         return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
@@ -188,36 +163,36 @@ var __importDefault;
         function fulfill(value) { resume("next", value); }
         function reject(value) { resume("throw", value); }
         function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-    };
+    }
 
-    __asyncDelegator = function (o) {
+    function __asyncDelegator(o) {
         var i, p;
         return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
         function verb(n, f) { if (o[n]) i[n] = function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; }; }
-    };
+    }
 
-    __asyncValues = function (o) {
+    function __asyncValues(o) {
         if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
         var m = o[Symbol.asyncIterator];
         return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-    };
+    }
 
-    __makeTemplateObject = function (cooked, raw) {
+    function __makeTemplateObject(cooked, raw) {
         if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
         return cooked;
-    };
+    }
 
-    __importStar = function (mod) {
+    function __importStar(mod) {
         if (mod && mod.__esModule) return mod;
         var result = {};
         if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         result["default"] = mod;
         return result;
-    };
+    }
 
-    __importDefault = function (mod) {
+    function __importDefault(mod) {
         return (mod && mod.__esModule) ? mod : { "default": mod };
-    };
+    }
 
     exporter("__extends", __extends);
     exporter("__assign", __assign);
