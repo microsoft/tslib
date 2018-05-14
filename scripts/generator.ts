@@ -5,16 +5,17 @@ import * as ts from "typescript";
 
 const rootDir = path.resolve(__dirname, `..`);
 const srcDir = path.resolve(rootDir, `src`);
-const copyrightNotice = fs.readFileSync(path.resolve(rootDir, "CopyrightNotice.txt"), "utf8");
-const umdGlobalsExporter = fs.readFileSync(path.resolve(srcDir, "umdGlobals.js"), "utf8");
-const umdExporter = fs.readFileSync(path.resolve(srcDir, "umd.js"), "utf8");
+const copyrightNotice = fs.readFileSync(path.resolve(rootDir, "CopyrightNotice.txt"), "utf8").trim();
 const tslibFile = path.resolve(srcDir, "tslib.js");
 const indentStrings: string[] = ["", "    "];
 const MAX_SMI_X86 = 0x3fff_ffff;
 
 const enum LibKind {
+    CommonJS,
+    Amd,
     Umd,
     UmdGlobal,
+    Global,
     ES2015
 }
 
@@ -39,12 +40,15 @@ class TextWriter {
         if (s) {
             const lines = s.split(/\r\n?|\n/g);
             const indentation = guessIndentation(lines);
+            let firstLine = true;
             for (const lineText of lines) {
                 const line = indentation ? lineText.slice(indentation) : lineText;
+                if (!line.trim() && firstLine) continue;
                 if (!this.pendingNewLines && this.output.length > 0) {
                     this.writeLine();
                 }
                 this.writeLine(line);
+                firstLine = false;
             }
         }
     }
@@ -68,8 +72,20 @@ class TextWriter {
 main();
 
 function main() {
-    const sourceFiles = parseSources();
-    generateSingleFileVariations(sourceFiles, rootDir);
+    const options: ts.CompilerOptions = {
+        allowJs: true,
+        noResolve: true,
+        noEmit: true,
+        target: ts.ScriptTarget.ES3,
+        types: []
+    };
+    const host = ts.createCompilerHost(options, /*setParentNodes*/ true);
+    const program = ts.createProgram({
+        rootNames: [tslibFile],
+        options,
+        host,
+    });
+    generateSingleFileVariations(program, rootDir);
 }
 
 function getIndentString(level: number) {
@@ -119,27 +135,19 @@ function mkdirpSync(dir: string) {
     }
 }
 
-function parse(file: string) {
-    const sourceText = fs.readFileSync(file, "utf8");
-    const sourceFile = ts.createSourceFile(file, sourceText, ts.ScriptTarget.ES3, /*setParentNodes*/ true, ts.ScriptKind.JS);
-    return sourceFile;
+function generateSingleFileVariations(program: ts.Program, outDir: string) {
+    generateSingleFile(program, path.resolve(outDir, "tslib.js"), LibKind.UmdGlobal);
+    generateSingleFile(program, path.resolve(outDir, "tslib.umd.js"), LibKind.Umd);
+    generateSingleFile(program, path.resolve(outDir, "tslib.cjs.js"), LibKind.CommonJS);
+    generateSingleFile(program, path.resolve(outDir, "tslib.amd.js"), LibKind.Amd);
+    generateSingleFile(program, path.resolve(outDir, "tslib.global.js"), LibKind.Global);
+    generateSingleFile(program, path.resolve(outDir, "tslib.es6.js"), LibKind.ES2015);
 }
 
-function parseSources() {
-    const sourceFiles: ts.SourceFile[] = [];
-    sourceFiles.push(parse(tslibFile));
-    return sourceFiles;
-}
-
-function generateSingleFileVariations(sourceFiles: ts.SourceFile[], outDir: string) {
-    generateSingleFile(sourceFiles, path.resolve(outDir, "tslib.js"), LibKind.UmdGlobal);
-    generateSingleFile(sourceFiles, path.resolve(outDir, "tslib.umd.js"), LibKind.Umd);
-    generateSingleFile(sourceFiles, path.resolve(outDir, "tslib.es6.js"), LibKind.ES2015);
-}
-
-function generateSingleFile(sourceFiles: ts.SourceFile[], outFile: string, libKind: LibKind) {
+function generateSingleFile(program: ts.Program, outFile: string, libKind: LibKind) {
+    const sourceFiles = program.getSourceFiles().filter(file => path.extname(file.fileName) === ".js");
     const bundle = ts.createBundle(sourceFiles);
-    const output = write(bundle, libKind);
+    const output = write(bundle, program.getTypeChecker(), libKind);
     mkdirpSync(path.dirname(outFile));
     fs.writeFileSync(outFile, output, "utf8");
 }
@@ -157,10 +165,16 @@ function reportError(node: ts.Node, message: string) {
     console.error(formatMessage(node, message));
 }
 
-function write(source: ts.Bundle, libKind: LibKind) {
+function write(source: ts.Bundle, checker: ts.TypeChecker, libKind: LibKind) {
     const globalWriter = new TextWriter();
     const bodyWriter = new TextWriter();
     const exportWriter = new TextWriter();
+    const unknownGlobals = new Set<string>();
+    const rewriteExports = libKind === LibKind.Umd || libKind === LibKind.UmdGlobal || libKind === LibKind.CommonJS || libKind === LibKind.Amd;
+    const useExporter = libKind === LibKind.Umd || libKind === LibKind.UmdGlobal;
+    const useExports = libKind === LibKind.CommonJS || libKind === LibKind.Amd;
+    const useGlobals = libKind === LibKind.UmdGlobal || libKind === LibKind.Global;
+    let knownLocals = new Set<string>();
     let sourceFile: ts.SourceFile | undefined;
 
     return writeBundle(source);
@@ -170,17 +184,93 @@ function write(source: ts.Bundle, libKind: LibKind) {
             case LibKind.Umd:
             case LibKind.UmdGlobal:
                 return writeUmdBundle(node);
+            case LibKind.Amd:
+                return writeAmdBundle(node);
+            case LibKind.CommonJS:
+                return writeCommonJSBundle(node);
             case LibKind.ES2015:
-                return writeES2015Bundle(node);
+            case LibKind.Global:
+                return writeES2015OrGlobalBundle(node);
         }
     }
 
+    function writeHeader(writer: TextWriter) {
+        writer.writeLines(copyrightNotice);
+        writeLintGlobals(writer);
+        writer.writeLine();
+    }
+
+    function writeLintGlobals(writer: TextWriter) {
+        if (unknownGlobals.size > 0) {
+            writer.writeLine(`/* global ${[...unknownGlobals].join(", ")} */`);
+        }
+    }
+
+    function writeUmdHeader(writer: TextWriter) {
+        writer.writeLines(`
+            (function (factory) {
+                if (typeof define === "function" && define.amd) {
+                    define("tslib", ["exports"], function (exports) { factory(createExporter(exports)); });
+                }
+                else if (typeof module === "object" && typeof module.exports === "object") {
+                    factory(createExporter(module.exports));
+                }
+                function createExporter(exports) {
+                    if (typeof Object.create === "function") {
+                        Object.defineProperty(exports, "__esModule", { value: true });
+                    }
+                    else {
+                        exports.__esModule = true;
+                    }
+                    return function (id, v) { return exports[id] = v; };
+                }
+            })`);
+    }
+
+    function writeUmdGlobalHeader(writer: TextWriter) {
+        writer.writeLines(`
+            (function (factory) {
+                var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
+                if (typeof define === "function" && define.amd) {
+                    define("tslib", ["exports"], function (exports) { factory(createExporter(root, createExporter(exports))); });
+                }
+                else if (typeof module === "object" && typeof module.exports === "object") {
+                    factory(createExporter(root, createExporter(module.exports)));
+                }
+                else {
+                    factory(createExporter(root));
+                }
+                function createExporter(exports, previous) {
+                    if (exports !== root) {
+                        if (typeof Object.create === "function") {
+                            Object.defineProperty(exports, "__esModule", { value: true });
+                        }
+                        else {
+                            exports.__esModule = true;
+                        }
+                    }
+                    return function (id, v) { return exports[id] = previous ? previous(id, v) : v; };
+                }
+            })`);
+    }
+
     function writeUmdBundle(node: ts.Bundle) {
+        if (libKind === LibKind.UmdGlobal) {
+            unknownGlobals.add("global");
+        }
+        
+        unknownGlobals.add("define").add("module");
         visit(node);
         const writer = new TextWriter();
-        writer.writeLines(copyrightNotice);
+        writeHeader(writer);
         writer.writeLines(globalWriter.toString());
-        writer.writeLines(libKind === LibKind.UmdGlobal ? umdGlobalsExporter : umdExporter);
+        if (libKind === LibKind.Umd) {
+            writeUmdHeader(writer);
+        }
+        else {
+            writeUmdGlobalHeader(writer);
+        }
+
         writer.writeLine(`(function (exporter) {`);
         writer.indent++;
         writer.writeLines(bodyWriter.toString());
@@ -191,15 +281,41 @@ function write(source: ts.Bundle, libKind: LibKind) {
         return writer.toString();
     }
 
-    function writeES2015Bundle(node: ts.Bundle) {
+    function writeAmdBundle(node: ts.Bundle) {
+        unknownGlobals.add("define");
         visit(node);
         const writer = new TextWriter();
-        writer.writeLines(copyrightNotice);
+        writeHeader(writer);
+        writer.writeLine(`define("tslib", ["exports"], function (exports) {`);
+        writer.indent++;
+        writer.writeLines(bodyWriter.toString());
+        writer.writeLine();
+        writer.writeLines(exportWriter.toString());
+        writer.indent--;
+        writer.writeLine(`});`);
+        return writer.toString();
+    }
+
+    function writeCommonJSBundle(node: ts.Bundle) {
+        visit(node);
+        const writer = new TextWriter();
+        writeHeader(writer);
+        writer.writeLines(bodyWriter.toString());
+        writer.writeLine();
+        writer.writeLines(exportWriter.toString());
+        return writer.toString();
+    }
+
+    function writeES2015OrGlobalBundle(node: ts.Bundle) {
+        visit(node);
+        const writer = new TextWriter();
+        writeHeader(writer);
         writer.writeLines(bodyWriter.toString());
         return writer.toString();
     }
 
     function visit(node: ts.Node) {
+        visitNames(node);
         switch (node.kind) {
             case ts.SyntaxKind.Bundle: return visitBundle(<ts.Bundle>node);
             case ts.SyntaxKind.SourceFile: return visitSourceFile(<ts.SourceFile>node);
@@ -220,74 +336,87 @@ function write(source: ts.Bundle, libKind: LibKind) {
         node.statements.forEach(visit);
     }
 
+    function isExport(node: ts.Node) {
+        return !!(ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Export);
+    }
+
     function visitFunctionDeclaration(node: ts.FunctionDeclaration) {
-        if (ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Export) {
-            if (libKind === LibKind.Umd || libKind === LibKind.UmdGlobal) {
-                exportWriter.writeLine(`exporter("${ts.idText(node.name)}", ${ts.idText(node.name)});`);
-                const parametersText = sourceFile.text.slice(node.parameters.pos, node.parameters.end);
-                const bodyText = node.body.getText();
-                if (libKind === LibKind.UmdGlobal) {
-                    globalWriter.writeLine(`var ${ts.idText(node.name)};`);
-                    bodyWriter.writeLines(`${ts.idText(node.name)} = function (${parametersText}) ${bodyText};`);
-                }
-                else {
-                    bodyWriter.writeLines(`function ${ts.idText(node.name)}(${parametersText}) ${bodyText}`);
-                }
-                bodyWriter.writeLine();
-                return;
+        if (isExport(node) && rewriteExports) {
+            const nameText = ts.idText(node.name);
+            const parametersText = sourceFile.text.slice(node.parameters.pos, node.parameters.end);
+            const bodyText = node.body.getText();
+            if (useGlobals) {
+                globalWriter.writeLine(`var ${nameText};`);
+                bodyWriter.writeLines(`${nameText} = function (${parametersText}) ${bodyText};`);
             }
+            else {
+                bodyWriter.writeLines(`function ${nameText}(${parametersText}) ${bodyText}`);
+            }
+            if (useExporter) exportWriter.writeLine(`exporter(${JSON.stringify(nameText)}, ${nameText});`);
+            if (useExports) exportWriter.writeLine(`exports.${nameText} = ${nameText};`);
         }
-        bodyWriter.writeLines(node.getText());
+        else {
+            bodyWriter.writeLines(node.getText());
+        }
         bodyWriter.writeLine();
     }
 
-    function visitVariableStatement(node: ts.VariableStatement) {
-        if (ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Export) {
+    function checkVariableStatement(node: ts.VariableStatement) {
+        if (isExport(node)) {
             if (node.declarationList.declarations.length > 1) {
                 reportError(node, `Only single variables are supported on exported variable statements.`);
-                return;
+                return false;
             }
 
             const variable = node.declarationList.declarations[0];
             if (variable.name.kind !== ts.SyntaxKind.Identifier) {
                 reportError(variable.name, `Only identifier names are supported on exported variable statements.`);
-                return;
+                return false;
             }
 
             if (!variable.initializer) {
                 reportError(variable.name, `Exported variables must have an initializer.`);
-                return;
-            }
-
-            if (libKind === LibKind.Umd || libKind === LibKind.UmdGlobal) {
-                if (libKind === LibKind.UmdGlobal) {
-                    globalWriter.writeLine(`var ${ts.idText(variable.name)};`);
-                    bodyWriter.writeLines(`${ts.idText(variable.name)} = ${variable.initializer.getText()};`);
-                }
-                else if (ts.isFunctionExpression(variable.initializer)) {
-                    const parametersText = sourceFile.text.slice(variable.initializer.parameters.pos, variable.initializer.parameters.end);
-                    const bodyText = variable.initializer.body.getText();
-                    bodyWriter.writeLines(`function ${ts.idText(variable.name)}(${parametersText}) ${bodyText}`);
-                    bodyWriter.writeLine();
-                }
-                else {
-                    bodyWriter.writeLines(`var ${ts.idText(variable.name)} = ${variable.initializer.getText()};`);
-                }
-                bodyWriter.writeLine();
-                exportWriter.writeLine(`exporter("${ts.idText(variable.name)}", ${ts.idText(variable.name)});`);
-                return;
-            }
-
-            if (ts.isFunctionExpression(variable.initializer)) {
-                const parametersText = sourceFile.text.slice(variable.initializer.parameters.pos, variable.initializer.parameters.end);
-                const bodyText = variable.initializer.body.getText();
-                bodyWriter.writeLines(`export function ${ts.idText(variable.name)}(${parametersText}) ${bodyText}`);
-                bodyWriter.writeLine();
-                return;
+                return false;
             }
         }
+        return true;
+    }
 
-        bodyWriter.writeLines(node.getText());
+    function visitVariableStatement(node: ts.VariableStatement) {
+        if (!checkVariableStatement(node)) return;
+        if (isExport(node) && rewriteExports) {
+            const variable = node.declarationList.declarations[0] as ts.VariableDeclaration & { name: ts.Identifier };
+            const nameText = ts.idText(variable.name);
+            if (useGlobals) {
+                globalWriter.writeLine(`var ${nameText};`);
+                bodyWriter.writeLines(`${nameText} = ${variable.initializer.getText()};`);
+            }
+            else {
+                bodyWriter.writeLines(`var ${nameText} = ${variable.initializer.getText()};`);
+            }
+            if (useExporter) exportWriter.writeLine(`exporter(${JSON.stringify(nameText)}, ${nameText});`);
+            if (useExports) exportWriter.writeLine(`exports.${nameText} = ${nameText};`);
+        }
+        else {
+            bodyWriter.writeLines(node.getText());
+        }        
         bodyWriter.writeLine();
+    }
+
+    function visitNames(node: ts.Node) {
+        if (!node) return;
+        if (ts.isIdentifier(node)) return visitIdentifier(node);
+        ts.forEachChild(node, visitNames);
+    }
+
+    function visitIdentifier(node: ts.Identifier) {
+        const nameText = ts.idText(node);
+        const parent = node.parent;
+        if (ts.isPropertyAccessExpression(parent) && parent.name === node ||
+            ts.isPropertyAssignment(parent) && parent.name === node ||
+            unknownGlobals.has(nameText)) return;
+        
+        const sym = checker.getSymbolAtLocation(node);
+        if (!sym) unknownGlobals.add(nameText);
     }
 }

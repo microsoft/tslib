@@ -16,7 +16,7 @@
     ],
     "scripts": {
         "build-generator": "tsc scripts/generator.ts --module commonjs --target es2015",
-        "build": "npm run build-generator && node scripts/generator.js src ."
+        "build": "npm run build-generator && node scripts/generator.js"
     },
     "bugs": {
         "url": "https://github.com/Microsoft/TypeScript/issues"
@@ -25,7 +25,7 @@
         "type": "git",
         "url": "https://github.com/Microsoft/tslib.git"
     },
-    "main": "tslib.umd.js",
+    "main": "tslib.cjs.js",
     "module": "tslib.es6.js",
     "jsnext:main": "tslib.es6.js",
     "typings": "tslib.d.ts",
