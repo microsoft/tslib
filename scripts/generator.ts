@@ -150,6 +150,9 @@ function generateSingleFile(program: ts.Program, outFile: string, libKind: LibKi
     const output = write(bundle, program.getTypeChecker(), libKind);
     mkdirpSync(path.dirname(outFile));
     fs.writeFileSync(outFile, output, "utf8");
+
+    const htmlOutFile = outFile.replace(/\.js$/, ".html");
+    fs.writeFileSync(htmlOutFile, `<script src="${path.basename(outFile)}"></script>`);
 }
 
 function formatMessage(node: ts.Node, message: string) {
