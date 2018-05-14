@@ -114,6 +114,16 @@ For JSPM users:
 }
 ```
 
+#### Variants
+
+There are several variants of `tslib` available in this package:
+
+- `tslib.js` - A bundle of all helpers that supports both CommonJS and AMD modules as well as adds global (for use with `<script></script>` tags).
+- `tslib.umd.js` - A bundle of all helpers that supports both CommonJS and AMD modules, but does not add global variables.
+- `tslib.cjs.js` - A bundle of all helpers that supports only CommonJS (this is the variant used as `"main"` in _package.json_).
+- `tslib.amd.js` - A bundle of all helpers that supports only AMD.
+- `tslib.es6.js` - A bundle of all helpers that supports ECMAScript module syntax.
+- `tslib.global.js` - A bundle of all helpers that only adds globals (for use with `<script></script>` tags).
 
 # Contribute
 

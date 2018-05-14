@@ -20,7 +20,7 @@
     "type": "git",
     "url": "https://github.com/Microsoft/tslib.git"
   },
-  "main": "tslib.js",
+  "main": "tslib.cjs.js",
   "ignore": [
     "**/.*",
     "node_modules",
