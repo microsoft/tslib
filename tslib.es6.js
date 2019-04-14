@@ -182,5 +182,5 @@ export function __importStar(mod) {
 }
 
 export function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
+    return (mod && mod.__esModule && Object.hasOwnProperty.call(mod, "default")) ? mod : { default: mod };
 }

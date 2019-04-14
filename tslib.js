@@ -218,7 +218,7 @@ var __importDefault;
     };
 
     __importDefault = function (mod) {
-        return (mod && mod.__esModule) ? mod : { "default": mod };
+        return (mod && mod.__esModule && Object.hasOwnProperty.call(mod, "default")) ? mod : { "default": mod };
     };
 
     exporter("__extends", __extends);
