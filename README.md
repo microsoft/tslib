@@ -44,6 +44,16 @@ npm install --save tslib
 npm install --save tslib@1.6.1
 ```
 
+## yarn
+
+```sh
+# TypeScript 2.3.3 or later
+yarn add tslib
+
+# TypeScript 2.3.2 or earlier
+yarn add tslib@1.6.1
+```
+
 ## bower
 
 ```sh
