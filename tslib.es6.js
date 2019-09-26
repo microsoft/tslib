@@ -104,7 +104,15 @@ export function __generator(thisArg, body) {
 }
 
 export function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    for (var p in m) b(p);
+    function b(p) {
+        if (!exports.hasOwnProperty(p)) Object.defineProperty(exports, p, {
+            enumerable: true,
+            get: function () {
+                return m[p];
+            }
+        });
+    }
 }
 
 export function __values(o) {
