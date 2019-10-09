@@ -33,6 +33,8 @@ var __asyncValues;
 var __makeTemplateObject;
 var __importStar;
 var __importDefault;
+var __classPrivateFieldSet;
+var __classPrivateFieldGet;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof define === "function" && define.amd) {
@@ -234,6 +236,33 @@ var __importDefault;
         return (mod && mod.__esModule) ? mod : { "default": mod };
     };
 
+    __classPrivateFieldSet = function (receiver, privateMap, value) {
+        var descriptor = privateMap.get(receiver);
+        if (!descriptor) {
+            throw new TypeError("attempted to set private field on non-instance");
+        }
+        if (descriptor.set) {
+            descriptor.set.call(receiver, value);
+        } else {
+            if (!descriptor.writable) {
+                throw new TypeError("attempted to set read only private field");
+            }
+            descriptor.value = value;
+        }
+        return value;
+    };
+
+    __classPrivateFieldGet = function (receiver, privateMap) {
+        var descriptor = privateMap.get(receiver);
+        if (!descriptor) {
+            throw new TypeError("attempted to get private field on non-instance");
+        }
+        if (descriptor.get) {
+            return descriptor.get.call(receiver);
+        }
+        return descriptor.value;
+    };
+
     exporter("__extends", __extends);
     exporter("__assign", __assign);
     exporter("__rest", __rest);
@@ -254,4 +283,6 @@ var __importDefault;
     exporter("__makeTemplateObject", __makeTemplateObject);
     exporter("__importStar", __importStar);
     exporter("__importDefault", __importDefault);
+    exporter("__classPrivateFieldSet", __classPrivateFieldSet);
+    exporter("__classPrivateFieldGet", __classPrivateFieldGet);
 });
