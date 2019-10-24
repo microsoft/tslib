@@ -251,11 +251,18 @@ var __createBinding;
     };
 
     __importStar = function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-        __setModuleDefault(result, mod);
-        return result;
+        var cache = typeof WeakMap === "function" ? new WeakMap() : null;
+        __importStar = function (mod) {
+            if (mod === null || (typeof mod !== "object" && typeof mod !== "function")) return { default: mod };
+            if (mod.__esModule) return mod;
+            if (cache && cache.has(mod)) return cache.get(mod);
+            var result = {};
+            for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+            __setModuleDefault(result, mod);
+            if (cache) cache.set(mod, result);
+            return result;
+        }
+        return __importStar(mod);
     };
 
     __importDefault = function (mod) {
