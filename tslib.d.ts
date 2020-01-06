@@ -13,7 +13,18 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 export declare function __extends(d: Function, b: Function): void;
-export declare function __assign(t: any, ...sources: any[]): any;
+
+/**
+ * Copy the values of all of the enumerable own properties from one or more source objects to a
+ * target object. Returns the target object.
+ * @param target The target object to copy to.
+ * @param sources One or more source objects from which to copy properties
+ */
+export declare function __assign<T, U>(target: T, source: U): T & U;
+export declare function __assign<T, U, V>(target: T, source1: U, source2: V): T & U & V;
+export declare function __assign<T, U, V, W>(target: T, source1: U, source2: V, source3: W): T & U & V & W;
+export declare function __assign(target: object, ...sources: any): any;
+
 export declare function __rest(t: any, propertyNames: (string | symbol)[]): any;
 export declare function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any;
 export declare function __param(paramIndex: number, decorator: Function): Function;
