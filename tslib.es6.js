@@ -212,7 +212,7 @@ export function __classPrivateFieldSet(receiver, privateMap, value) {
     return value;
 }
 
-export const __createBinding = (Object.create ? (function(o, m, k, k2) {
+export const __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, {
         enumerable: true,
@@ -221,13 +221,13 @@ export const __createBinding = (Object.create ? (function(o, m, k, k2) {
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
-}));
+});
 
-const __setModuleDefault = (Object.create ? (function(o, v) {
+const __setModuleDefault = Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", {
         enumerable: true,
         value: v
     });
 }) : function(o, v) {
     o["default"] = v;
-});
+};
