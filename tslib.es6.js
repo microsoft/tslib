@@ -223,7 +223,7 @@ export const __createBinding = (Object.create ? (function(o, m, k, k2) {
     o[k2] = m[k];
 }));
 
-export const __setModuleDefault = (Object.create ? (function(o, v) {
+const __setModuleDefault = (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", {
         enumerable: true,
         value: v

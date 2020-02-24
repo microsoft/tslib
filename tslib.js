@@ -296,5 +296,4 @@ var __setModuleDefault;
     exporter("__classPrivateFieldGet", __classPrivateFieldGet);
     exporter("__classPrivateFieldSet", __classPrivateFieldSet);
     exporter("__createBinding", __createBinding);
-    exporter("__setModuleDefault", __setModuleDefault)
 });

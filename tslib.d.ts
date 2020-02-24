@@ -35,4 +35,3 @@ export declare function __importDefault<T>(mod: T): T | { default: T };
 export declare function __classPrivateFieldGet<T extends object, V>(receiver: T, privateMap: WeakMap<T, V>): V;
 export declare function __classPrivateFieldSet<T extends object, V>(receiver: T, privateMap: WeakMap<T, V>, value: V): V;
 export declare function __createBinding(t: any, mod: any, k: string, k2?: string): void;
-export declare function __setModuleDefault(mod: any, value: any): void;
