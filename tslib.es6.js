@@ -17,7 +17,7 @@ and limitations under the License.
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
 
@@ -104,7 +104,7 @@ export function __generator(thisArg, body) {
 }
 
 export function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    for (var p in m) if (!Object.prototype.hasOwnProperty.call(exports, p)) exports[p] = m[p];
 }
 
 export function __values(o) {
@@ -188,7 +188,7 @@ export function __makeTemplateObject(cooked, raw) {
 export function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    if (mod != null) for (var k in mod) if (Object.prototype.hasOwnProperty.call(mod, k)) result[k] = mod[k];
     result.default = mod;
     return result;
 }
