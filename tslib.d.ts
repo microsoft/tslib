@@ -32,5 +32,5 @@ export declare function __asyncValues(o: any): any;
 export declare function __makeTemplateObject(cooked: string[], raw: string[]): TemplateStringsArray;
 export declare function __importStar<T>(mod: T): T;
 export declare function __importDefault<T>(mod: T): T | { default: T };
-export declare function __classPrivateFieldGet<T extends object, V>(receiver: T, privateMap: WeakMap<T, V>): V;
-export declare function __classPrivateFieldSet<T extends object, V>(receiver: T, privateMap: WeakMap<T, V>, value: V): V;
+export declare function __classPrivateFieldGet(receiver: object, privateMap: object): any;
+export declare function __classPrivateFieldSet(receiver: object, privateMap: object, value: any): any;
