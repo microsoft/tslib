@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "homepage": "https://www.typescriptlang.org/",
     "version": "1.11.1",
-    "license": "Apache-2.0",
+    "license": "0BSD",
     "description": "Runtime library for TypeScript helper functions",
     "keywords": [
         "TypeScript",
