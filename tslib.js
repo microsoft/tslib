@@ -145,7 +145,7 @@ var __createBinding;
 
     __exportStar = function(m, exports) {
         for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-    }
+    };
 
     __createBinding = Object.create ? (function(o, m, k, k2) {
         if (k2 === undefined) k2 = k;
