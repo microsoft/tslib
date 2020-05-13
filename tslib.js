@@ -256,7 +256,7 @@ var __createBinding;
         }
         privateMap.set(receiver, value);
         return value;
-    }
+    };
 
     exporter("__extends", __extends);
     exporter("__assign", __assign);
