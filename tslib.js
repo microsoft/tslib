@@ -150,7 +150,7 @@ var __createBinding;
     };
 
     __exportStar = function (m, exports) {
-        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
     };
 
     __values = function (o) {

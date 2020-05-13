@@ -109,7 +109,7 @@ export function __createBinding(o, m, k, k2) {
 }
 
 export function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 
 export function __values(o) {
