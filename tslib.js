@@ -144,12 +144,20 @@ var __createBinding;
     };
 
     __exportStar = function(m, exports) {
-        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+        for (var p in m) {
+            if (p !== "default" && !exports.hasOwnProperty(p)) {
+                __createBinding(exports, m, p);
+            }
+        }
     };
 
     __createBinding = Object.create ? (function(o, m, k, k2) {
         if (k2 === undefined) k2 = k;
-        Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+        Object.defineProperty(o, k2, {
+            enumerable: true,
+            get: function() { return m[k]; },
+            set: function(value) { m[k] = value; }
+        });
     }) : (function(o, m, k, k2) {
         if (k2 === undefined) k2 = k;
         o[k2] = m[k];
