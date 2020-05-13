@@ -103,16 +103,18 @@ export function __generator(thisArg, body) {
     }
 }
 
-export const __createBinding = Object.create ? (function(o, m, k, k2) {
+export function __exportStar(m, exports, binding) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) (binding ? __createBinding : createBindingFallback)(exports, m, p);
+}
+
+export var __createBinding = Object.create ? (function (o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
+}) : createBindingFallback;
+
+function createBindingFallback(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
-});
-
-export function __exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
 }
 
 export function __values(o) {
@@ -193,22 +195,24 @@ export function __makeTemplateObject(cooked, raw) {
     return cooked;
 };
 
-const __setModuleDefault = Object.create ? (function(o, v) {
+var __setModuleDefault = Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-};
+}) : setModuleDefaultFallback;
 
-export function __importStar(mod) {
+export function __importStar(mod, binding) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) (binding ? __createBinding : createBindingFallback)(result, mod, k);
+    (binding ? __setModuleDefault : setModuleDefaultFallback)(result, mod);
     return result;
 }
 
 export function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function setModuleDefaultFallback(o, v) {
+    o["default"] = v;
 }
 
 export function __classPrivateFieldGet(receiver, privateMap) {

@@ -143,17 +143,19 @@ var __createBinding;
         }
     };
 
-    __exportStar = function(m, exports) {
-        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+    __exportStar = function (m, exports, binding) {
+        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) (binding ? __createBinding : createBindingFallback)(exports, m, p);
     };
 
-    __createBinding = Object.create ? (function(o, m, k, k2) {
+    __createBinding = Object.create ? (function (o, m, k, k2) {
         if (k2 === undefined) k2 = k;
         Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-    }) : (function(o, m, k, k2) {
+    }) : createBindingFallback;
+
+    function createBindingFallback(o, m, k, k2) {
         if (k2 === undefined) k2 = k;
         o[k2] = m[k];
-    });
+    }
 
     __values = function (o) {
         var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
@@ -235,15 +237,13 @@ var __createBinding;
 
     var __setModuleDefault = Object.create ? (function(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
-    }) : function(o, v) {
-        o["default"] = v;
-    };
+    }) : setModuleDefaultFallback;
 
-    __importStar = function (mod) {
+    __importStar = function (mod, binding) {
         if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-        __setModuleDefault(result, mod);
+        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) (binding ? __createBinding : createBindingFallback)(result, mod, k);
+        (binding ? __setModuleDefault : setModuleDefaultFallback)(result, mod);
         return result;
     };
 
@@ -251,6 +251,9 @@ var __createBinding;
         return (mod && mod.__esModule) ? mod : { "default": mod };
     };
 
+    function setModuleDefaultFallback(o, v) {
+        o["default"] = v;
+    }
     __classPrivateFieldGet = function (receiver, privateMap) {
         if (!privateMap.has(receiver)) {
             throw new TypeError("attempted to get private field on non-instance");
