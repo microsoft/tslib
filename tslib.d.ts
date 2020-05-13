@@ -34,3 +34,4 @@ export declare function __importStar<T>(mod: T): T;
 export declare function __importDefault<T>(mod: T): T | { default: T };
 export declare function __classPrivateFieldGet<T extends object, V>(receiver: T, privateMap: { has(o: T): boolean, get(o: T): V | undefined }): V;
 export declare function __classPrivateFieldSet<T extends object, V>(receiver: T, privateMap: { has(o: T): boolean, set(o: T, value: V): any }, value: V): V;
+export declare function __createBinding(object: object, target: object, key: PropertyKey, objectKey?: PropertyKey): void;

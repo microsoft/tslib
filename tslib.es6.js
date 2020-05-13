@@ -103,6 +103,11 @@ export function __generator(thisArg, body) {
     }
 }
 
+export function __createBinding(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}
+
 export function __exportStar(m, exports) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
