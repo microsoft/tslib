@@ -27,11 +27,14 @@
     "jsnext:main": "tslib.es6.js",
     "typings": "tslib.d.ts",
     "exports": {
-        ".": {
-            "import": "./tslib.es6.js",
-            "require": "./tslib.cjs",
-            "default": "./tslib.cjs"
-        },
+        ".": [
+            {
+                "import": "./tslib.es6.js",
+                "require": "./tslib.cjs",
+                "default": "./tslib.cjs"
+            },
+            "./tslib.cjs"
+        ],
         "./tslib.js": "./tslib.cjs",
         "./tslib": "./tslib.cjs",
         "./": "./"
