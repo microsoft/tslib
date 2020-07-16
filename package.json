@@ -22,6 +22,13 @@
         "url": "https://github.com/Microsoft/tslib.git"
     },
     "main": "tslib.js",
+    "exports": {
+        ".": {
+            "import": "./tslib.es6.js",
+            "default": "./tslib.js"
+        },
+        "./": "./"
+    },
     "module": "tslib.es6.js",
     "jsnext:main": "tslib.es6.js",
     "typings": "tslib.d.ts",
