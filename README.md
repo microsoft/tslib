@@ -41,7 +41,7 @@ For the latest stable version, run:
 npm install --save tslib
 
 # TypeScript 3.8.4 or earlier
-npm install --save tslib@1.13.0
+npm install --save tslib@^1
 
 # TypeScript 2.3.2 or earlier
 npm install --save tslib@1.6.1
@@ -54,7 +54,7 @@ npm install --save tslib@1.6.1
 yarn add tslib
 
 # TypeScript 3.8.4 or earlier
-yarn add tslib@1.13.0
+yarn add tslib@^1
 
 # TypeScript 2.3.2 or earlier
 yarn add tslib@1.6.1
@@ -67,7 +67,7 @@ yarn add tslib@1.6.1
 bower install tslib
 
 # TypeScript 3.8.4 or earlier
-bower install tslib@1.13.0
+bower install tslib@^1
 
 # TypeScript 2.3.2 or earlier
 bower install tslib@1.6.1
@@ -80,7 +80,7 @@ bower install tslib@1.6.1
 jspm install tslib
 
 # TypeScript 3.8.4 or earlier
-jspm install tslib@1.13.0
+jspm install tslib@^1
 
 # TypeScript 2.3.2 or earlier
 jspm install tslib@1.6.1
