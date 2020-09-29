@@ -17,12 +17,10 @@ jobs:
 
       - name: "CommonJS Test"
         run: |
-          cd cjs
+          cd test/cjs
           npm run test
-          cd ..
 
       - name: "ES Modules Test"
         run: |
-          cd esm
+          cd test/esm
           npm run test
-          cd ..

@@ -1,7 +1,7 @@
 const { __awaiter } = require("tslib");
 
-const printSomething = (textToPrint) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(`Awaiter: ${textToPrint}`);
+const testFunction = (textToPrint) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(`State: ${textToPrint}`);
 });
 
-printSomething("Hi!")
+testFunction("Works")
