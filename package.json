@@ -21,11 +21,12 @@
         "type": "git",
         "url": "https://github.com/Microsoft/tslib.git"
     },
-    "main": "tslib.js",
+    "main": "tslib.cjs",
+    "type": "module",
     "exports": {
         ".": {
             "import": "./tslib.es6.js",
-            "default": "./tslib.js"
+            "default": "./tslib.cjs"
         },
         "./": "./"
     },
