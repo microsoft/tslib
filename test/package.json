@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "tslib": "file:.."
+    "tslib": "file:..",
+    "rollup": "2.28.2",
+    "@rollup/plugin-node-resolve": "9.0.0",
+    "webpack": "4.44.2",
+    "webpack-cli": "3.3.12"
   }
 }

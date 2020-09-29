@@ -22,5 +22,15 @@ jobs:
 
       - name: "ES Modules Test"
         run: |
-          cd test/esm
+          cd test/esm-node-native
+          npm run test
+
+      - name: "Rollup Tree-shaking Test"
+        run: |
+          cd test/rollup-modules
+          npm run test
+
+      - name: "Webpack Tree-shaking Test"
+        run: |
+          cd test/webpack-modules
           npm run test
