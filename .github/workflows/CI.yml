@@ -34,3 +34,8 @@ jobs:
         run: |
           cd test/webpack-modules
           npm run test
+
+      - name: "Snowpack Tree-shaking Test"
+        run: |
+          cd test/snowpack-modules
+          npm run test
