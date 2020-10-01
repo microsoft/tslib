@@ -1,4 +1,4 @@
-import { createRequire } from "module";
+import tslib from '../tslib.js';
 const {
     __extends,
     __assign,
@@ -23,7 +23,7 @@ const {
     __importDefault,
     __classPrivateFieldGet,
     __classPrivateFieldSet,
-} = createRequire(import.meta.url)("../tslib.js");
+} = tslib;
 export {
     __extends,
     __assign,
