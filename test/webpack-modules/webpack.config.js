@@ -7,7 +7,6 @@ const config = {
   output: {
     path: path.join(process.cwd(), 'build')
   } 
-  
 }
 
 module.exports = config
