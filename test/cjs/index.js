@@ -1,7 +1,2 @@
-const { __awaiter } = require("tslib");
-
-const testFunction = (textToPrint) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(`State: ${textToPrint}`);
-});
-
-testFunction("Works")
+const tslib = require("tslib");
+if (typeof tslib.__awaiter !== "function") throw new Error("Missing expected helper __awaiter");

@@ -1,4 +1,13 @@
-module.exports = {
+const path = require('path');
+
+/** @type {import("webpack").Configuration} */
+const config = {
   mode: "production", 
-  entry: "./index"
+  entry: "./index",
+  output: {
+    path: path.join(process.cwd(), 'build')
+  } 
+  
 }
+
+module.exports = config

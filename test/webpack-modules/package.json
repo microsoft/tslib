@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "test": "../node_modules/.bin/webpack && node dist/main.js"
+    "test": "../node_modules/.bin/webpack && node build/main.js"
   }
 }
