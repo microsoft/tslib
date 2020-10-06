@@ -1,0 +1,7 @@
+{
+  "type": "module",
+
+  "scripts": {
+    "test": "../node_modules/.bin/snowpack build; node build/index.js"
+  }
+}
