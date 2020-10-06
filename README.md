@@ -38,13 +38,13 @@ For the latest stable version, run:
 
 ```sh
 # TypeScript 3.9.2 or later
-npm install --save tslib
+npm install tslib
 
 # TypeScript 3.8.4 or earlier
-npm install --save tslib@^1
+npm install tslib@^1
 
 # TypeScript 2.3.2 or earlier
-npm install --save tslib@1.6.1
+npm install tslib@1.6.1
 ```
 
 ## yarn
@@ -130,7 +130,7 @@ For JSPM users:
         "importHelpers": true,
         "baseUrl": "./",
         "paths": {
-            "tslib" : ["jspm_packages/npm/tslib@2.0.1/tslib.d.ts"]
+            "tslib" : ["jspm_packages/npm/tslib@2.x.y/tslib.d.ts"]
         }
     }
 }
