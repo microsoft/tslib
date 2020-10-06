@@ -1,9 +1,9 @@
 {
     "name": "tslib",
     "author": "Microsoft Corp.",
-    "homepage": "http://typescriptlang.org/",
-    "version": "1.9.3",
-    "license": "Apache-2.0",
+    "homepage": "https://www.typescriptlang.org/",
+    "version": "2.0.2",
+    "license": "0BSD",
     "description": "Runtime library for TypeScript helper functions",
     "keywords": [
         "TypeScript",
@@ -24,5 +24,13 @@
     "main": "tslib.js",
     "module": "tslib.es6.js",
     "jsnext:main": "tslib.es6.js",
-    "typings": "tslib.d.ts"
+    "typings": "tslib.d.ts",
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "import": "./modules/index.js",
+            "default": "./tslib.js"
+        },
+        "./": "./"
+    }
 }

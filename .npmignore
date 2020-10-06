@@ -1,3 +1,6 @@
 .gitattributes
+.github
 bower.json
 docs
+test
+.npmrc

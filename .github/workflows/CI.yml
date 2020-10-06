@@ -1,0 +1,57 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use node version ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup Testing Infra
+        run: |
+          cd test
+          npm install
+
+      - name: "CommonJS Test"
+        run: |
+          cd test/cjs
+          npm run test
+
+      - name: "ES Modules Test"
+        run: |
+          cd test/esm-node-native
+          npm run test
+        if: ${{ matrix.node-version == '14.x' }}
+
+      - name: "Validate ES Modules == CommonJS"
+        run: |
+          cd test/validateModuleExportsMatchCommonJS
+          npm run test
+        if: ${{ matrix.node-version == '14.x' }}
+
+      - name: "Rollup Tree-shaking Test"
+        run: |
+          cd test/rollup-modules
+          npm run test
+
+      - name: "Webpack Tree-shaking Test"
+        run: |
+          cd test/webpack-modules
+          npm run test
+
+      - name: "Snowpack Tree-shaking Test"
+        run: |
+          cd test/snowpack-modules
+          npm run test
+        if: ${{ matrix.node-version == '14.x' }}

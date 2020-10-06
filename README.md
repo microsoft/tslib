@@ -37,18 +37,37 @@ For the latest stable version, run:
 ## npm
 
 ```sh
-# TypeScript 2.3.3 or later
+# TypeScript 3.9.2 or later
 npm install tslib
+
+# TypeScript 3.8.4 or earlier
+npm install tslib@^1
 
 # TypeScript 2.3.2 or earlier
 npm install tslib@1.6.1
 ```
 
+## yarn
+
+```sh
+# TypeScript 3.9.2 or later
+yarn add tslib
+
+# TypeScript 3.8.4 or earlier
+yarn add tslib@^1
+
+# TypeScript 2.3.2 or earlier
+yarn add tslib@1.6.1
+```
+
 ## bower
 
 ```sh
-# TypeScript 2.3.3 or later
+# TypeScript 3.9.2 or later
 bower install tslib
+
+# TypeScript 3.8.4 or earlier
+bower install tslib@^1
 
 # TypeScript 2.3.2 or earlier
 bower install tslib@1.6.1
@@ -57,8 +76,11 @@ bower install tslib@1.6.1
 ## JSPM
 
 ```sh
-# TypeScript 2.3.3 or later
+# TypeScript 3.9.2 or later
 jspm install tslib
+
+# TypeScript 3.8.4 or earlier
+jspm install tslib@^1
 
 # TypeScript 2.3.2 or earlier
 jspm install tslib@1.6.1
@@ -108,7 +130,7 @@ For JSPM users:
         "importHelpers": true,
         "baseUrl": "./",
         "paths": {
-            "tslib" : ["jspm_packages/npm/tslib@1.9.3/tslib.d.ts"]
+            "tslib" : ["jspm_packages/npm/tslib@2.x.y/tslib.d.ts"]
         }
     }
 }
@@ -124,11 +146,9 @@ There are many ways to [contribute](https://github.com/Microsoft/TypeScript/blob
 * Engage with other TypeScript users and developers on [StackOverflow](http://stackoverflow.com/questions/tagged/typescript).
 * Join the [#typescript](http://twitter.com/#!/search/realtime/%23typescript) discussion on Twitter.
 * [Contribute bug fixes](https://github.com/Microsoft/TypeScript/blob/master/CONTRIBUTING.md).
-* Read the language specification ([docx](http://go.microsoft.com/fwlink/?LinkId=267121), [pdf](http://go.microsoft.com/fwlink/?LinkId=267238)).
 
 # Documentation
 
 * [Quick tutorial](http://www.typescriptlang.org/Tutorial)
 * [Programming handbook](http://www.typescriptlang.org/Handbook)
-* [Language specification](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 * [Homepage](http://www.typescriptlang.org/)
