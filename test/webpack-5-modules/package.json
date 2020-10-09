@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "test": "webpack && node build/main.js"
+  },
+  "devDependencies": {
+    "webpack": "5.0.0-rc.4",
+    "webpack-cli": "3.3.12"
+  }
+}
