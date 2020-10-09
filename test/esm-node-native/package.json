@@ -2,5 +2,8 @@
   "type": "module",
   "scripts": {
     "test": "node index.js"
+  },
+  "engines": {
+    "node": "14"
   }
 }
