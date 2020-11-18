@@ -21,3 +21,6 @@ jobs:
       - name: Run tests
         run: node ./test/runTests.js
 
+      - name: Run tests
+        run: node ./test/validateModuleExportsMatchCommonJS/index.js
+        if: matrix.node-version == '14.x'
