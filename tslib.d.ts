@@ -21,7 +21,7 @@ export declare function __metadata(metadataKey: any, metadataValue: any): Functi
 export declare function __awaiter(thisArg: any, _arguments: any, P: Function, generator: Function): any;
 export declare function __generator(thisArg: any, body: Function): any;
 export declare function __exportStar(m: any, o: any): void;
-export declare function __values(o: any): any;
+export declare function __values<T>(o: Iterable<T> | ArrayLike<T>): Iterator<T>;
 export declare function __read(o: any, n?: number): any[];
 /** @deprecated since TypeScript 4.2 */
 export declare function __spread(...args: any[][]): any[];
@@ -31,7 +31,7 @@ export declare function __spreadArray(to: any[], from: any[], pack?: boolean): a
 export declare function __await(v: any): any;
 export declare function __asyncGenerator(thisArg: any, _arguments: any, generator: Function): any;
 export declare function __asyncDelegator(o: any): any;
-export declare function __asyncValues(o: any): any;
+export declare function __asyncValues<T>(o: AsyncIterable<T> | Iterable<T> | ArrayLike<T>): AsyncIterator<T>;
 export declare function __makeTemplateObject(cooked: string[], raw: string[]): TemplateStringsArray;
 export declare function __importStar<T>(mod: T): T;
 export declare function __importDefault<T>(mod: T): T | { default: T };
