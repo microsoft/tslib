@@ -24,9 +24,8 @@ var extendStatics = function(d, b) {
 export function __extends(d, b) {
     if (typeof b !== "function" && b !== null)
         throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    function __() {}
+    (d.prototype = b ? (extendStatics(d, b), __.prototype = b.prototype, new __()) : Object.create(b)).constructor = d;
 }
 
 export var __assign = function() {

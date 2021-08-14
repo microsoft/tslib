@@ -12,7 +12,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-export declare function __extends(d: Function, b: Function): void;
+export declare function __extends(d: Function, b: Function | null): void;
 export declare function __assign(t: any, ...sources: any[]): any;
 export declare function __rest(t: any, propertyNames: (string | symbol)[]): any;
 export declare function __decorate(decorators: Function[], target: any, key?: string | symbol, desc?: any): any;
