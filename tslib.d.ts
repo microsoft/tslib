@@ -127,4 +127,11 @@ export declare function __classPrivateFieldSet<T extends new (...args: any[]) =>
     kind: "a",
     f: (v: V) => void
 ): V;
+/**
+ * Checking the existence of a private field/method/accessor
+ */
+export declare function __classPrivateFieldIn(
+    state: (new (...args: any[]) => unknown) | { has(o: any): boolean },
+    receiver: unknown,
+): boolean;
 export declare function __createBinding(object: object, target: object, key: PropertyKey, objectKey?: PropertyKey): void;
