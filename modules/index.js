@@ -1,4 +1,4 @@
-import tslib from '../tslib.js';
+import * as tslib from '../tslib.js';
 const {
     __extends,
     __assign,
@@ -25,7 +25,7 @@ const {
     __classPrivateFieldGet,
     __classPrivateFieldSet,
     __classPrivateFieldIn,
-} = tslib;
+} = tslib.default || tslib;
 export {
     __extends,
     __assign,
