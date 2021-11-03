@@ -5,7 +5,7 @@ const mainVersion = Number(process.version.replace("v","").split(".")[0])
 
 // Loop through all the folders and run `npm test`
 
-const blocklist = ["validateModuleExportsMatchCommonJS", "node_modules"];
+const blocklist = ["validateModuleExportsMatchCommonJS", "node_modules", "vm-modules"];
 const filesInTest = fs.readdirSync(__dirname);
 const tests = filesInTest
   .filter((f) => fs.statSync(path.join(__dirname, f)).isDirectory())
