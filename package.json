@@ -32,6 +32,9 @@
             "import": "./modules/index.js",
             "default": "./tslib.js"
         },
-        "./": "./"
+        "./tslib.es6": "./tslib.es6.js",
+        "./modules/index": "./modules/index.js",
+        "./tslib": "./tslib.js",
+        "./package.json": "./package.json"
     }
 }
