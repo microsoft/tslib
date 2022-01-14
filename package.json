@@ -32,6 +32,6 @@
             "import": "./modules/index.js",
             "default": "./tslib.js"
         },
-        "./": "./"
+        "./*": "./*"
     }
 }
