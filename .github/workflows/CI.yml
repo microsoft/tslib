@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x, 16.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,4 +23,4 @@ jobs:
 
       - name: Run tests
         run: node ./test/validateModuleExportsMatchCommonJS/index.js
-        if: matrix.node-version == '14.x'
+        if: matrix.node-version == '16.x'
