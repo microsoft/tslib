@@ -7,14 +7,14 @@ Here's the body of the `__generator` helper:
 
 ```js
 __generator = function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t;
-    return { next: verb(0), "throw": verb(1), "return": verb(2) };
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -98,7 +98,7 @@ arguments, and their purpose:
 | 7 (endfinally) |           | Exits a finally block, resuming any previous operation (such as a break, return, throw, etc.)                                  |
 
 # State
-The `_`, `f`, `y`, and `t` variables make up the persistent state of the `__generator` function. Each variable
+The `_`, `f`, `y`, `t`, and `g` variables make up the persistent state of the `__generator` function. Each variable
 has a specific purpose, as described in the following sections:
 
 ## The `_` variable
@@ -148,6 +148,11 @@ The `t` variable is a temporary variable that stores one of the following values
 
 > NOTE: None of the above cases overlap.
 
+## The `g` variable
+The `g` variable is a temporary variable that holds onto the generator object for the purpose of attaching a
+`Symbol.iterator` method (if its available), and holdes onto that value until the generator is started, allowing
+it to also act as the [`suspendedStart`](https://tc39.es/ecma262/#table-internal-slots-of-generator-instances) state.
+
 # Protected Regions
 A **Protected Region** is a region within the `body` function that indicates a
 `try..catch..finally` statement. It consists of a 4-tuple that contains 4 labels:
@@ -164,13 +169,18 @@ The final step of the `__generator` helper is the allocation of an object that i
 `Generator` protocol, to be used by the `__awaiter` helper:
 
 ```ts
-return { next: verb(0), "throw": verb(1), "return": verb(2) };
+return g = { next: verb(0), "throw": verb(1), "return": verb(2) },
+       typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }),
+       g;
 function verb(n) { return function (v) { return step([n, v]); }; }
 ```
 
 This object translates calls to `next`, `throw`, and `return` to the appropriate Opcodes and
 invokes the `step` orchestration function to continue execution. The `throw` and `return` method
-names are quoted to better support ES3.
+names are quoted to better support ES3. In addition, a `Symbol.iterator` method is added to the
+generator if the global `Symbol` constructor is available. Once we return, the object reference in
+the `g` variable isn't used by the main [orchestration method](#orchestration), so we can use its
+truthiness as a mechanism to determine whether the generator is in the `suspendedStart` state.
 
 # Orchestration
 The `step` function is the main orechestration mechanism for the `__generator` helper. It
@@ -181,9 +191,9 @@ Here's a closer look at the `step` function:
 ```ts
 function step(op) {
     if (f) throw new TypeError("Generator is already executing.");
-    while (_) try {
-        if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [0, t.value];
+    while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
         switch (op[0]) {
             case 0: case 1: t = op; break;
             case 4: _.label++; return { value: op[1], done: false };
@@ -219,13 +229,25 @@ The main body of the `step` function consists of a `while` loop which continues 
 instructions until the generator exits or is suspended:
 
 ```ts
-while (_) try ...
+while (g && (g = 0, op[0] && (_ = 0)), _) try ...
 ```
+
+During the first call to `next()`, `return()`, or `throw()`, the generator will be in the `suspendedStart` state. This
+is indicated by the `g` variable being "truthy" since it still holds a reference to the generator object. If `g` is
+"truthy", then we reset it and check whether the first instruction sent to the generator (`op[0]`) is either a
+`return` (`op[0] === 1`) or `throw` (`op[0] === 2`) Opcode, indicating an abrupt completion. 
+
+If the first instruction is abrupt, we can emulate [GeneratorResumeAbrupt](https://tc39.es/ecma262/#sec-generatorresumeabrupt)
+by setting the state variable (`_`) to a falsy value, which will skip the loop body and
+[complete the generator](#handling-a-completed-generator).
+
+If this is _not_ the first instruction sent to the generator, or if the first instruction was `next()`, we will proceed
+to evaluate the loop body.
 
 When the generator has run to completion, the `_` state variable will be cleared, forcing the loop
 to exit.
 
-## Evaluating the generator body.
+## Evaluating the generator body
 ```ts
 try {
     ...
