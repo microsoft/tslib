@@ -294,8 +294,8 @@ reduce the overall footprint of the helper.
 The first two statements of the `try..finally` statement handle delegation for `yield*`:
 
 ```ts
-if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-if (y = 0, t) op = [0, t.value];
+if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+if (y = 0, t) op = [op[0] & 2, t.value];
 ```
 
 If the `y` variable is set, and `y` has a `next`, `throw`, or `return` method (depending on the
@@ -304,7 +304,7 @@ current operation), we invoke this method and store the return value (an Iterato
 If `t` indicates it is a yielded value (e.g. `t.done === false`), we return `t` to the caller.
 If `t` indicates it is a returned value (e.g. `t.done === true`), we mark the operation with the
 `next` Opcode, and the returned value.
-If `y` did not have the appropriate method, or `t` was a returned value, we reset `y` to a falsey
+If `y` did not have the appropriate method, or `t` was a returned value, we reset `y` to a falsy
 value and continue processing the operation.
 
 ## Handling operations
@@ -424,7 +424,7 @@ if (!(t = ...) && (op[0] === 6 || op[0] === 2)) {
 ```
 
 If we encounter an Opcode 6 ("catch") or Opcode 2 ("return"), and we are not in a protected region,
-then this operation completes the generator by setting the `_` variable to a falsey value. The
+then this operation completes the generator by setting the `_` variable to a falsy value. The
 `continue` statement resumes execution at the top of the `while` statement, which will exit the loop
 so that we continue execution at the statement following the loop.
 
@@ -485,7 +485,7 @@ current **protected region** from the stack and spin the `while` statement to ev
 operation again in the next **protected region** or at the function boundary.
 
 ## Handling a completed generator
-Once the generator has completed, the `_` state variable will be falsey. As a result, the `while`
+Once the generator has completed, the `_` state variable will be falsy. As a result, the `while`
 loop will terminate and hand control off to the final statement of the orchestration function,
 which deals with how a completed generator is evaluated:
 
