@@ -150,7 +150,8 @@ The `t` variable is a temporary variable that stores one of the following values
 
 ## The `g` variable
 The `g` variable is a temporary variable that holds onto the generator object for the purpose of attaching a
-`Symbol.iterator` method (if its available), and holdes onto that value until the generator is started, allowing
+`Symbol.iterator` method (if its available), and holds onto that value until the generator is started, allowing
+
 it to also act as the [`suspendedStart`](https://tc39.es/ecma262/#table-internal-slots-of-generator-instances) state.
 
 # Protected Regions
