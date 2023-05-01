@@ -29,7 +29,10 @@
     "exports": {
         ".": {
             "module": "./tslib.es6.js",
-            "import": "./modules/index.js",
+            "import": {
+              "node": "./modules/index.js",
+              "default": "./tslib.es6.js"
+            },
             "default": "./tslib.js"
         },
         "./*": "./*",
