@@ -2,7 +2,7 @@
     "name": "tslib",
     "author": "Microsoft Corp.",
     "homepage": "https://www.typescriptlang.org/",
-    "version": "2.5.2",
+    "version": "2.5.3",
     "license": "0BSD",
     "description": "Runtime library for TypeScript helper functions",
     "keywords": [
@@ -29,15 +29,15 @@
     "exports": {
         ".": {
             "module": {
-              "types": "./tslib/modules/index.d.ts",
-              "default": "./tslib.es6.mjs"
+                "types": "./tslib/modules/index.d.ts",
+                "default": "./tslib.es6.mjs"
             },
             "import": {
-              "node": "./modules/index.js",
-              "default": {
-                "types": "./modules/index.d.ts",
-                "default": "./tslib.es6.mjs"
-              }
+                "node": "./modules/index.js",
+                "default": {
+                    "types": "./modules/index.d.ts",
+                    "default": "./tslib.es6.mjs"
+                }
             },
             "default": "./tslib.js"
         },
