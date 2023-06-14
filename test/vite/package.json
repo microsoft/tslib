@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "test": "../node_modules/.bin/vite build && node build/index.js"
+    "test": "..\\node_modules\\.bin\\vite build && node build/index.js"
   }
 }
