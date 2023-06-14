@@ -49,7 +49,7 @@ for (const test of tests) {
   }
   
   // Run the test command
-  const results = spawnSync("npm", ["test"], { cwd: path.join(__dirname, test) });
+  const results = spawnSync("npm", ["test"], { cwd: path.join(__dirname, test), shell: true });
   console.log((results.stdout || "").toString())
   if (results.status) {
     console.log(chalk.bold.red("Error running test: ") + chalk.bold(test))
