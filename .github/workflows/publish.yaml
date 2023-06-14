@@ -5,14 +5,25 @@ on:
     types: [created]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use node version 18
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+      - name: Update npm
+        run: npm i -g npm@8.19.4
+      - name: Run tests
+        run: npm run test
   build:
+    needs: [test]
     permissions:
       id-token: write # For signing
       contents: read # For repo checkout.
       actions: read # For getting workflow run info.
     uses: slsa-framework/slsa-github-generator/.github/workflows/builder_nodejs_slsa3.yml@v1.7.0
-    with:
-      run-scripts: "i, test"
   publish:
     needs: [build]
     runs-on: ubuntu-latest

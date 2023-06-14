@@ -45,7 +45,6 @@
         "./": "./"
     },
     "scripts": {
-        "i": "npm i",
         "test": "node ./test/runTests.js && node test/validateModuleExportsMatchCommonJS/index.js"
     }
 }
