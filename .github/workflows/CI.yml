@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Update npm
+        run: npm i -g npm@9.7.1
+
       - name: Run tests
         run: node ./test/runTests.js
 
