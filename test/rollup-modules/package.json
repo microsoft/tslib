@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "test": "..\\node_modules\\.bin\\rollup -c rollup.config.js && node build/index.js"
+    "test": "rollup -c rollup.config.js && node build/index.js"
   }
 }
