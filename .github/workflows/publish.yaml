@@ -5,16 +5,33 @@ on:
     types: [created]
 
 jobs:
-  publish-npm:
+  build:
+    permissions:
+      id-token: write # For signing
+      contents: read # For repo checkout.
+      actions: read # For getting workflow run info.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_nodejs_slsa3.yml@v1.7.0
+    with:
+      run-scripts: "i, test"
+  publish:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Set up Node registry authentication
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
-      - run: npm i
-      - run: node test/validateModuleExportsMatchCommonJS/index.js
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+
+      - name: publish
+        id: publish
+        uses: slsa-framework/slsa-github-generator/actions/nodejs/publish@4314fec3d06bb217f163b89466dcd34be65b9bf1 # v1.6.0
+        with:
+          access: public
+          node-auth-token: ${{ secrets.npm_token }}
+          package-name: ${{ needs.build.outputs.package-name }}
+          package-download-name: ${{ needs.build.outputs.package-download-name }}
+          package-download-sha256: ${{ needs.build.outputs.package-download-sha256 }}
+          provenance-name: ${{ needs.build.outputs.provenance-name }}
+          provenance-download-name: ${{ needs.build.outputs.provenance-download-name }}
+          provenance-download-sha256: ${{ needs.build.outputs.provenance-download-sha256 }}
