@@ -450,4 +450,4 @@ export declare function __addDisposableResource<T>(env: { stack: { value?: unkno
  * error recorded in the resource-tracking environment object.
  * @seealso {@link __addDisposableResource}
  */
-export declare function __disposeResources(env: { stack: { value?: unknown, dispose?: Function, async: boolean }[]; error: unknown; hasError: boolean; }): Promise | void;
+export declare function __disposeResources(env: { stack: { value?: unknown, dispose?: Function, async: boolean }[]; error: unknown; hasError: boolean; }): any;
