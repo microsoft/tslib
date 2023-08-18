@@ -29,7 +29,7 @@
     "exports": {
         ".": {
             "module": {
-                "types": "./tslib/modules/index.d.ts",
+                "types": "./modules/index.d.ts",
                 "default": "./tslib.es6.mjs"
             },
             "import": {
