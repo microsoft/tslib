@@ -125,7 +125,7 @@ export declare function __generator(thisArg: any, body: Function): any;
  * @param m The source object
  * @param exports The `exports` object.
  */
-export declare function __exportStar(m: any, o: any): void;
+export declare function __exportStar(m: any, exports: any): void;
 
 /**
  * Creates a value iterator from an `Iterable` or `ArrayLike` object.
