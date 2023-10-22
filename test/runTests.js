@@ -14,7 +14,14 @@ const tests = filesInTest
 // Support setting up the test node modules
 if (!filesInTest.includes("node_modules")) {
   console.log("Installing Deps...");
-  spawnSync("npm", ["install"], { cwd: __dirname });
+  const res = spawnSync("npm", ["install"], { cwd: __dirname, shell: true });
+  if (res.error) {
+    console.error(res.error);
+    process.exit(res.error.errno || -1);
+  }
+  if (res.output) {
+    console.log(res.output.toString());
+  }
   console.log("Installed");
 }
 
@@ -37,13 +44,13 @@ for (const test of tests) {
   if (pgkJSON.dependencies || pgkJSON.devDependencies) {
     const nodeModsInstalled = fs.existsSync(path.join(__dirname, test, "node_modules"));
     if (!nodeModsInstalled) {
-      spawnSync("npm", ["install"], { cwd: path.join(__dirname, test) });
+      spawnSync("npm", ["install"], { cwd: path.join(__dirname, test), shell: true });
     }
   }
   
   // Run the test command
-  const results = spawnSync("npm", ["test"], { cwd: path.join(__dirname, test) });
-  console.log(results.stdout.toString())
+  const results = spawnSync("npm", ["test"], { cwd: path.join(__dirname, test), shell: true });
+  console.log((results.stdout || "").toString())
   if (results.status) {
     console.log(chalk.bold.red("Error running test: ") + chalk.bold(test))
     console.log(results.stderr.toString())

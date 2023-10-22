@@ -2,7 +2,7 @@
   "type": "module",
 
   "scripts": {
-    "test": "../node_modules/.bin/snowpack build; node build/index.js"
+    "test": "snowpack build && node build/index.js"
   },
   "engines": {
     "node": "14"

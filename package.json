@@ -43,5 +43,8 @@
         },
         "./*": "./*",
         "./": "./"
+    },
+    "scripts": {
+        "test": "node ./test/runTests.js && node test/validateModuleExportsMatchCommonJS/index.js"
     }
 }
