@@ -6,6 +6,6 @@
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
     "snowpack": "2.12.1",
-    "vite": "2.8.0"
+    "vite": "2.9.17"
   }
 }
