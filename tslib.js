@@ -320,7 +320,7 @@ var __disposeResources;
     };
 
     __importDefault = function (mod) {
-        return (mod && mod.__esModule) ? mod : { "default": mod };
+        return (mod && mod.__esModule && mod.default) ? mod : { "default": mod };
     };
 
     __classPrivateFieldGet = function (receiver, state, kind, f) {
