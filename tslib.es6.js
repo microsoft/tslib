@@ -154,7 +154,7 @@ export var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() { return m[k]; } };
+        desc = { enumerable: true, configurable: true, get: function() { return m[k]; } };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
@@ -258,7 +258,7 @@ export function __makeTemplateObject(cooked, raw) {
 };
 
 var __setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+    Object.defineProperty(o, "default", { enumerable: true, configurable: true, value: v });
 }) : function(o, v) {
     o["default"] = v;
 };
