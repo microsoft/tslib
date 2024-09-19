@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "test": "webpack && node build/main.js"
+  }
+}
