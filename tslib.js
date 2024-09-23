@@ -44,6 +44,7 @@ var __classPrivateFieldIn;
 var __createBinding;
 var __addDisposableResource;
 var __disposeResources;
+var __rewriteRelativeImportExtension;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof define === "function" && define.amd) {
@@ -395,6 +396,23 @@ var __disposeResources;
         return next();
     };
 
+    __rewriteRelativeImportExtension = function (path, preserveJsx) {
+        if (typeof path === "string" && path[0] === "." && (path[1] === "/" || path[1] === "." && path[2] === "/")) {
+            if (path.substring(path.length - 4) === ".tsx") {
+                return path.substring(0, path.length - 4) + (preserveJsx ? ".jsx" : ".js");
+            }
+            if (path.substring(path.length - 3) === ".ts") {
+                var dot = path.lastIndexOf(".", path.length - 4);
+                if (dot >= 0 && (path.substring(dot - 2, dot) === ".d" || path.substring(dot, dot + 2) === ".d")) {
+                    return path;
+                }
+                return path.substring(0, path.length - 3) + ".js";
+            }
+            return path.replace(/(?<!\.d)\.[cm]ts$/, function (ext) { return ext === ".mts" ? ".mjs" : ".cjs"; });
+        }
+        return path;
+    };
+
     exporter("__extends", __extends);
     exporter("__assign", __assign);
     exporter("__rest", __rest);
@@ -426,6 +444,7 @@ var __disposeResources;
     exporter("__classPrivateFieldIn", __classPrivateFieldIn);
     exporter("__addDisposableResource", __addDisposableResource);
     exporter("__disposeResources", __disposeResources);
+    exporter("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension);
 });
 
 0 && (module.exports = {
@@ -460,4 +479,5 @@ var __disposeResources;
     __classPrivateFieldIn,
     __addDisposableResource,
     __disposeResources,
+    __rewriteRelativeImportExtension,
 });
