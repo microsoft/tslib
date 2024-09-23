@@ -1,3 +1,4 @@
+// @ts-check
 const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -5,11 +6,10 @@ const mainVersion = Number(process.version.replace("v","").split(".")[0])
 
 // Loop through all the folders and run `npm test`
 
-const blocklist = ["validateModuleExportsMatchCommonJS", "node_modules"];
 const filesInTest = fs.readdirSync(__dirname);
 const tests = filesInTest
   .filter((f) => fs.statSync(path.join(__dirname, f)).isDirectory())
-  .filter((f) => !blocklist.includes(f));
+  .filter((f) => f !== "node_modules");
 
 // Support setting up the test node modules
 if (!filesInTest.includes("node_modules")) {
@@ -18,7 +18,7 @@ if (!filesInTest.includes("node_modules")) {
   console.log("Installed");
 }
 
-const chalk = require("chalk").default;
+const chalk = require("chalk");
 for (const test of tests) {
   console.log("---> " + chalk.bold(test));
 

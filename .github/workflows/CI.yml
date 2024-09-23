@@ -9,21 +9,14 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
 
-      - name: Use node version ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.x
 
       - name: Run tests
         run: node ./test/runTests.js
 
-      - name: Run tests
-        run: node ./test/validateModuleExportsMatchCommonJS/index.js
-        if: matrix.node-version == '16.x'
