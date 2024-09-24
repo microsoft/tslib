@@ -7,6 +7,8 @@ testHelper("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension 
     assert.equal(__rewriteRelativeImportExtension("./foo.ts"), "./foo.js");
     assert.equal(__rewriteRelativeImportExtension("../foo.ts"), "../foo.js");
     assert.equal(__rewriteRelativeImportExtension("../../foo.ts"), "../../foo.js");
+    assert.equal(__rewriteRelativeImportExtension("./foo.TS"), "./foo.js");
+    assert.equal(__rewriteRelativeImportExtension("./foo.Ts"), "./foo.js");
   });
 
   test("rewrites other TypeScript extensions", () => {
@@ -14,6 +16,7 @@ testHelper("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension 
     assert.equal(__rewriteRelativeImportExtension("./foo.cts"), "./foo.cjs");
     assert.equal(__rewriteRelativeImportExtension("./foo.tsx"), "./foo.js");
     assert.equal(__rewriteRelativeImportExtension("./foo.tsx", true), "./foo.jsx");
+    assert.equal(__rewriteRelativeImportExtension("./foo.Tsx", true), "./foo.jsx");
   });
 
   test("does not rewrite other extensions", () => {
@@ -45,5 +48,6 @@ testHelper("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension 
     assert.equal(__rewriteRelativeImportExtension("./foo.d.mts"), "./foo.d.mts");
     assert.equal(__rewriteRelativeImportExtension("./foo.d.cts"), "./foo.d.cts");
     assert.equal(__rewriteRelativeImportExtension("./foo.d.css.ts"), "./foo.d.css.ts");
+    assert.equal(__rewriteRelativeImportExtension("./foo.D.ts"), "./foo.D.ts");
   });
 });
