@@ -402,7 +402,7 @@ var __rewriteRelativeImportExtension;
                 return path.substring(0, path.length - 4) + (preserveJsx ? ".jsx" : ".js");
             }
             return path.replace(/(\.d)?(\.[^./]+?)?\.([cm])?ts$/i, function (m, d, ext, cm) {
-                return d && (ext && !cm || !ext) ? m : ("." + (cm || "").toLowerCase() + "js");
+                return d && (ext && !cm || !ext) ? m : ((d || "") + (ext || "") + "." + (cm || "").toLowerCase() + "js");
             });
         }
         return path;

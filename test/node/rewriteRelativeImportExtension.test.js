@@ -9,6 +9,7 @@ testHelper("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension 
     assert.equal(__rewriteRelativeImportExtension("../../foo.ts"), "../../foo.js");
     assert.equal(__rewriteRelativeImportExtension("./foo.TS"), "./foo.js");
     assert.equal(__rewriteRelativeImportExtension("./foo.Ts"), "./foo.js");
+    assert.equal(__rewriteRelativeImportExtension("./foo/.hidden/foo.ts"), "./foo/.hidden/foo.js");
   });
 
   test("rewrites other TypeScript extensions", () => {
@@ -17,6 +18,8 @@ testHelper("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension 
     assert.equal(__rewriteRelativeImportExtension("./foo.tsx"), "./foo.js");
     assert.equal(__rewriteRelativeImportExtension("./foo.tsx", true), "./foo.jsx");
     assert.equal(__rewriteRelativeImportExtension("./foo.Tsx", true), "./foo.jsx");
+    assert.equal(__rewriteRelativeImportExtension("./foo.d.css.mts"), "./foo.d.css.mjs");
+    assert.equal(__rewriteRelativeImportExtension("./foo.d.tsx"), "./foo.d.js");
   });
 
   test("does not rewrite other extensions", () => {
