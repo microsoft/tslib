@@ -401,14 +401,9 @@ var __rewriteRelativeImportExtension;
             if (path.substring(path.length - 4).toLowerCase() === ".tsx") {
                 return path.substring(0, path.length - 4) + (preserveJsx ? ".jsx" : ".js");
             }
-            var extMatch = path.match(/\.[cm]?ts$/i);
-            if (extMatch) {
-                var ext = extMatch[0].toLowerCase();
-                var dot = path.lastIndexOf(".", path.length - (ext.length + 1));
-                if (dot < 0 || !(path.substring(dot - 2, dot).toLowerCase() === ".d" || path.substring(dot, dot + 2).toLowerCase() === ".d")) {
-                    return path.substring(0, path.length - ext.length) + (ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js");
-                }
-            }
+            return path.replace(/(\.d)?(\.[^./]+?)?\.([cm])?ts$/i, function (m, d, ext, cm) {
+                return d && (ext && !cm || !ext) ? m : ("." + (cm || "").toLowerCase() + "js");
+            });
         }
         return path;
     };
