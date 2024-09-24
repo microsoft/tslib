@@ -348,6 +348,15 @@ export function __disposeResources(env) {
     return next();
 }
 
+export function __rewriteRelativeImportExtension(path, preserveJsx) {
+    if (typeof path === "string" && /^\.\.?\//.test(path)) {
+        return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+            return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+        });
+    }
+    return path;
+}
+
 export default {
     __extends: __extends,
     __assign: __assign,
@@ -380,4 +389,5 @@ export default {
     __classPrivateFieldIn: __classPrivateFieldIn,
     __addDisposableResource: __addDisposableResource,
     __disposeResources: __disposeResources,
+    __rewriteRelativeImportExtension: __rewriteRelativeImportExtension,
 };
