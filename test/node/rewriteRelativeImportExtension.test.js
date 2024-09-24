@@ -30,6 +30,7 @@ testHelper("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension 
     assert.equal(__rewriteRelativeImportExtension("./foo.json"), "./foo.json");
     assert.equal(__rewriteRelativeImportExtension("./foo.css"), "./foo.css");
     assert.equal(__rewriteRelativeImportExtension("./foo"), "./foo");
+    assert.equal(__rewriteRelativeImportExtension("./foo.d.php?q=1.ts"), "./foo.d.php?q=1.ts");
   });
 
   test("does not rewrite non-relative imports", () => {
