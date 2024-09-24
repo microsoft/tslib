@@ -348,12 +348,9 @@ export function __disposeResources(env) {
 }
 
 export function __rewriteRelativeImportExtension(path, preserveJsx) {
-  if (typeof path === "string" && path[0] === "." && (path[1] === "/" || path[1] === "." && path[2] === "/")) {
-      if (path.substring(path.length - 4).toLowerCase() === ".tsx") {
-          return path.substring(0, path.length - 4) + (preserveJsx ? ".jsx" : ".js");
-      }
-      return path.replace(/(\.d)?(\.[^./]+?)?\.([cm])?ts$/i, function (m, d, ext, cm) {
-          return d && (ext && !cm || !ext) ? m : ((d || "") + (ext || "") + "." + (cm || "").toLowerCase() + "js");
+  if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|(\.d)?(\.[^./]+?)?\.([cm])?ts$/i, function (m, tsx, d, ext, cm) {
+          return tsx ? preserveJsx ? ".jsx" : ".js" : d && (ext && !cm || !ext) ? m : ((d || "") + (ext || "") + "." + (cm || "").toLowerCase() + "js");
       });
   }
   return path;
