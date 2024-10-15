@@ -3,21 +3,30 @@ name: Publish to NPM
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  publish-npm:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
+          node-version: 22.x
       - run: npm i
-      - run: node test/validateModuleExportsMatchCommonJS/index.js
+      - run: node ./test/runTests.js
+
+  publish-npm:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 22.x
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
