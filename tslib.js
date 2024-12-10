@@ -302,7 +302,8 @@ var __rewriteRelativeImportExtension;
     };
 
     __makeTemplateObject = function (cooked, raw) {
-        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw, enumerable: false }); } else { cooked.raw = raw; }
+        if (Object.freeze) { Object.freeze(cooked); Object.freeze(raw) }
         return cooked;
     };
 
