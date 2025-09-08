@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   test:
@@ -28,6 +29,5 @@ jobs:
         with:
           node-version: 22.x
           registry-url: https://registry.npmjs.org/
+      - run: npm install -g npm@latest
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
