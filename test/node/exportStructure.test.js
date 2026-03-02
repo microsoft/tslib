@@ -31,6 +31,7 @@ function compareKeys(name1, tslib1, name2, tslib2) {
   const difference = new Set(Object.keys(tslib1)).symmetricDifference(new Set(Object.keys(tslib2)));
   difference.delete("__esModule");
   difference.delete("default"); // Asserted separately where expected
+  difference.delete("module.exports"); // Synthetic CJS interop key added by require(ESM)
   const messages = Array.from(difference).map(missing => `'${missing}' missing in ${missing in tslib1 ? name2 : name1}`);
   if (messages.length > 0) {
     assert.fail(`Mismatch between ${name1} and ${name2}:\n\n  ${messages.join("\n  ")}\n`);
