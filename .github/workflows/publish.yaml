@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: read
+  id-token: write      # Required for provenance
+  packages: write      # Required for publishing
 
 jobs:
   test:
@@ -28,6 +30,6 @@ jobs:
         with:
           node-version: 22.x
           registry-url: https://registry.npmjs.org/
-      - run: npm publish
+      - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
