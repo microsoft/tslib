@@ -281,7 +281,7 @@ export function __importStar(mod) {
 }
 
 export function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
+    return (mod && mod.__esModule && mod.default) ? mod : { default: mod };
 }
 
 export function __classPrivateFieldGet(receiver, state, kind, f) {
