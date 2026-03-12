@@ -28,6 +28,10 @@
     "sideEffects": false,
     "exports": {
         ".": {
+            "react-native": {
+                "types": "./modules/index.d.ts",
+                "default": "./tslib.es6.mjs"
+            },
             "module": {
                 "types": "./modules/index.d.ts",
                 "default": "./tslib.es6.mjs"
