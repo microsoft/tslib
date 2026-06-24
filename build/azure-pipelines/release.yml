@@ -1,0 +1,163 @@
+name: $(date:yyyyMMdd).$(rev:r)
+
+trigger:
+  branches:
+    include:
+      - main
+pr: none
+
+variables:
+  TeamName: TypeScript
+  Codeql.Enabled: true
+  NpmArtifactName: npm-package
+  ReleaseOwners: "jabaile@microsoft.com"
+  ReleaseApprovers: "alexchi@microsoft.com"
+
+resources:
+  repositories:
+    - repository: MicroBuildTemplate
+      type: git
+      name: 1ESPipelineTemplates/MicroBuildTemplate
+      ref: refs/tags/release
+
+extends:
+  template: azure-pipelines/MicroBuild.1ES.Official.Publish.yml@MicroBuildTemplate
+  parameters:
+    pool:
+      name: AzurePipelines-EO
+      image: 1ESPT-Ubuntu22.04
+      os: linux
+    sdl:
+      sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      binskim:
+        scanOutputDirectoryOnly: true
+    settings:
+      networkIsolationPolicy: Permissive,CFSClean
+    stages:
+      - stage: Build
+        displayName: Build
+        jobs:
+          - job: Build
+            displayName: Test and pack npm package
+            templateContext:
+              mb:
+                # This pipeline uses the publish template so the package publish
+                # stage can run. Do not inject publish authorization into the
+                # normal build job.
+                publish:
+                  enabled: false
+                signing:
+                  enabled: false
+              sdl:
+                codeSignValidation:
+                  enabled: false
+              outputParentDirectory: "$(Build.ArtifactStagingDirectory)"
+              outputs:
+                - output: pipelineArtifact
+                  condition: and(succeeded(), eq(variables['ShouldPack'], 'true'))
+                  targetPath: "$(Build.ArtifactStagingDirectory)/$(NpmArtifactName)"
+                  artifactName: $(NpmArtifactName)
+                  displayName: "Publish npm package artifact"
+            steps:
+              - checkout: self
+                fetchDepth: 2
+
+              - task: UseNode@1
+                inputs:
+                  version: "22.x"
+                displayName: "Install Node.js"
+
+              - script: |
+                  set -euo pipefail
+                  cat > .npmrc << 'EOF'
+                  registry=https://pkgs.dev.azure.com/devdiv/devdiv/_packaging/devdiv_PublicPackages/npm/registry/
+                  EOF
+                displayName: "Set up .npmrc"
+
+              - task: npmAuthenticate@0
+                inputs:
+                  workingFile: .npmrc
+                displayName: "Authenticate npm"
+
+              - script: npm install
+                displayName: "Install dependencies"
+
+              - script: node ./test/runTests.js
+                displayName: "Run tests"
+
+              - script: |
+                  set -euo pipefail
+
+                  package_name="$(node -p "require('./package.json').name")"
+                  package_version="$(node -p "require('./package.json').version")"
+                  package_spec="$package_name@$package_version"
+                  staging="$(Build.ArtifactStagingDirectory)/$(NpmArtifactName)"
+
+                  if [ "$(Build.SourceBranch)" != "refs/heads/main" ]; then
+                    echo "Not on main; not staging a package artifact."
+                    echo "##vso[task.setvariable variable=ShouldPack]false"
+                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
+                    exit 0
+                  fi
+
+                  if git diff --quiet HEAD~1 HEAD -- package.json; then
+                    echo "package.json did not change in this commit; not staging a package artifact."
+                    echo "##vso[task.setvariable variable=ShouldPack]false"
+                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
+                    exit 0
+                  fi
+
+                  previous_version="$(node -e "const { execFileSync } = require('child_process'); console.log(JSON.parse(execFileSync('git', ['show', 'HEAD~1:package.json'], { encoding: 'utf8' })).version);")"
+                  if [ "$previous_version" = "$package_version" ]; then
+                    echo "package.json changed, but version stayed $package_version; not staging a package artifact."
+                    echo "##vso[task.setvariable variable=ShouldPack]false"
+                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
+                    exit 0
+                  fi
+
+                  echo "package.json version changed from $previous_version to $package_version; staging $package_spec."
+                  mkdir -p "$staging"
+                  npm pack --pack-destination "$staging"
+
+                  shopt -s nullglob
+                  tarballs=("$staging"/*.tgz)
+                  if [ "${#tarballs[@]}" -ne 1 ]; then
+                    echo "Expected exactly one npm tarball, found ${#tarballs[@]}." >&2
+                    exit 1
+                  fi
+
+                  echo "##[section]Staged npm package:"
+                  printf ' - %s\n' "${tarballs[@]}"
+
+                  echo "##vso[task.setvariable variable=ShouldPack]true"
+                  echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]true"
+                  echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-release.$package_version"
+                name: publishCheck
+                displayName: "Check version and pack npm package"
+
+      - stage: Publish
+        displayName: Publish to npmjs
+        dependsOn: Build
+        condition: and(succeeded(), eq(dependencies.Build.outputs['Build.publishCheck.ShouldPublish'], 'true'))
+        jobs:
+          - job: PublishNpmPackage
+            displayName: Publish npm package to npmjs
+            templateContext:
+              type: releaseJob
+              isProduction: true
+              inputs:
+                - input: pipelineArtifact
+                  artifactName: $(NpmArtifactName)
+                  targetPath: $(Pipeline.Workspace)/$(NpmArtifactName)
+            steps:
+              - checkout: none
+
+              - template: MicroBuild.Publish.yml@MicroBuildTemplate
+                parameters:
+                  intent: "PackageDistribution"
+                  contentType: "npm"
+                  contentSource: "Folder"
+                  folderLocation: "$(Pipeline.Workspace)/$(NpmArtifactName)"
+                  waitForReleaseCompletion: true
+                  owners: "$(ReleaseOwners)"
+                  approvers: "$(ReleaseApprovers)"
