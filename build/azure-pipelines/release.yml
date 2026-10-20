@@ -2,8 +2,11 @@ name: $(date:yyyyMMdd).$(rev:r)
 
 trigger:
   branches:
+    exclude:
+      - "*"
+  tags:
     include:
-      - main
+      - "*"
 pr: none
 
 variables:
@@ -60,7 +63,7 @@ extends:
                   displayName: "Publish npm package artifact"
             steps:
               - checkout: self
-                fetchDepth: 2
+                fetchDepth: 1
 
               - task: UseNode@1
                 inputs:
@@ -93,29 +96,20 @@ extends:
                   package_spec="$package_name@$package_version"
                   staging="$(Build.ArtifactStagingDirectory)/$(NpmArtifactName)"
 
-                  if [ "$(Build.SourceBranch)" != "refs/heads/main" ]; then
-                    echo "Not on main; not staging a package artifact."
+                  if [[ "$BUILD_SOURCEBRANCH" != refs/tags/* ]]; then
+                    echo "Not building a tag; not staging a package artifact."
                     echo "##vso[task.setvariable variable=ShouldPack]false"
                     echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
                     exit 0
                   fi
 
-                  if git diff --quiet HEAD~1 HEAD -- package.json; then
-                    echo "package.json did not change in this commit; not staging a package artifact."
-                    echo "##vso[task.setvariable variable=ShouldPack]false"
-                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
-                    exit 0
+                  tag="${BUILD_SOURCEBRANCH#refs/tags/}"
+                  if [ "${tag#v}" != "$package_version" ]; then
+                    echo "Tag $tag does not match package.json version $package_version (expected $package_version or v$package_version)." >&2
+                    exit 1
                   fi
 
-                  previous_version="$(node -e "const { execFileSync } = require('child_process'); console.log(JSON.parse(execFileSync('git', ['show', 'HEAD~1:package.json'], { encoding: 'utf8' })).version);")"
-                  if [ "$previous_version" = "$package_version" ]; then
-                    echo "package.json changed, but version stayed $package_version; not staging a package artifact."
-                    echo "##vso[task.setvariable variable=ShouldPack]false"
-                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
-                    exit 0
-                  fi
-
-                  echo "package.json version changed from $previous_version to $package_version; staging $package_spec."
+                  echo "Tag $tag matches package.json version $package_version; staging $package_spec."
                   mkdir -p "$staging"
                   npm pack --pack-destination "$staging"
 
@@ -133,7 +127,7 @@ extends:
                   echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]true"
                   echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-release.$package_version"
                 name: publishCheck
-                displayName: "Check version and pack npm package"
+                displayName: "Check tag and pack npm package"
 
       - stage: Publish
         displayName: Publish to npmjs
