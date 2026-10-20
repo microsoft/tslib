@@ -117,6 +117,12 @@ extends:
                     exit 1
                   fi
 
+                  lock_version="$(node -p "require('./test/package-lock.json').packages['..'].version")"
+                  if [ "$package_version" != "$lock_version" ]; then
+                    echo "package.json version $package_version does not match test/package-lock.json version $lock_version." >&2
+                    exit 1
+                  fi
+
                   echo "Tag $tag matches package.json version $package_version; staging $package_spec."
                   mkdir -p "$staging"
                   npm pack --pack-destination "$staging"
