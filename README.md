@@ -140,14 +140,12 @@ For JSPM users:
 
 - Choose your new version number
 - Set it in `package.json` and `bower.json`
-- Merge the version bump into `main` and check out the commit to release
-- Create a tag: `git tag v[version]`
-- Push that tag to the upstream repository to trigger the [Azure release pipeline](build/azure-pipelines/release.yml)
-- The pipeline tests the tagged commit, verifies that the tag matches `package.json` (with or without a `v` prefix), and stages the npm package
+- Squash-merge the version bump into `main` to trigger the [Azure release pipeline](build/azure-pipelines/release.yml)
+- The pipeline tests the merged commit and stages the npm package if the version in `package.json` differs from the previous commit
 - Have a configured release approver approve the MicroBuild release request to publish the staged package to npm
-- Once publishing completes, create a [release in GitHub](https://github.com/microsoft/tslib/releases) using the same tag
+- Once publishing completes, tag the released commit with `git tag v[version]`, push that tag to the upstream repository, and create a [release in GitHub](https://github.com/microsoft/tslib/releases)
 
-Branch pushes do not trigger releases. Rerunning a tag starts the release flow again;
+Tags do not trigger releases. Rerunning a version-bump commit starts the release flow again;
 do not approve another publication if that version has already been published.
 
 # Contribute
