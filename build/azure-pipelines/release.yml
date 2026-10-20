@@ -2,8 +2,11 @@ name: $(date:yyyyMMdd).$(rev:r)
 
 trigger:
   branches:
+    exclude:
+      - "*"
+  tags:
     include:
-      - main
+      - v*
 pr: none
 
 variables:
@@ -12,6 +15,8 @@ variables:
   NpmArtifactName: npm-package
   ReleaseOwners: "jabaile@microsoft.com"
   ReleaseApprovers: "alexchi@microsoft.com"
+  TYPESCRIPT_AUTOMATION_GITHUB_APP_CLIENT_ID: Iv23li4GolzJSEp1mzHI
+  TYPESCRIPT_AUTOMATION_GITHUB_APP_KEY_ID: https://jststeam-passwords.vault.azure.net/keys/typescript-automation
 
 resources:
   repositories:
@@ -60,7 +65,7 @@ extends:
                   displayName: "Publish npm package artifact"
             steps:
               - checkout: self
-                fetchDepth: 2
+                fetchDepth: 1
 
               - task: UseNode@1
                 inputs:
@@ -93,29 +98,26 @@ extends:
                   package_spec="$package_name@$package_version"
                   staging="$(Build.ArtifactStagingDirectory)/$(NpmArtifactName)"
 
-                  if [ "$(Build.SourceBranch)" != "refs/heads/main" ]; then
-                    echo "Not on main; not staging a package artifact."
+                  if [[ "$BUILD_SOURCEBRANCH" != refs/tags/* ]]; then
+                    echo "Not building a tag; not staging a package artifact."
                     echo "##vso[task.setvariable variable=ShouldPack]false"
                     echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
                     exit 0
                   fi
 
-                  if git diff --quiet HEAD~1 HEAD -- package.json; then
-                    echo "package.json did not change in this commit; not staging a package artifact."
-                    echo "##vso[task.setvariable variable=ShouldPack]false"
-                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
-                    exit 0
+                  tag="${BUILD_SOURCEBRANCH#refs/tags/}"
+                  if ! [[ "$package_version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || [ "$tag" != "v$package_version" ]; then
+                    echo "Tag $tag does not match a stable package.json version v$package_version." >&2
+                    exit 1
                   fi
 
-                  previous_version="$(node -e "const { execFileSync } = require('child_process'); console.log(JSON.parse(execFileSync('git', ['show', 'HEAD~1:package.json'], { encoding: 'utf8' })).version);")"
-                  if [ "$previous_version" = "$package_version" ]; then
-                    echo "package.json changed, but version stayed $package_version; not staging a package artifact."
-                    echo "##vso[task.setvariable variable=ShouldPack]false"
-                    echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]false"
-                    exit 0
+                  bower_version="$(node -p "require('./bower.json').version")"
+                  if [ "$package_version" != "$bower_version" ]; then
+                    echo "package.json version $package_version does not match bower.json version $bower_version." >&2
+                    exit 1
                   fi
 
-                  echo "package.json version changed from $previous_version to $package_version; staging $package_spec."
+                  echo "Tag $tag matches package.json version $package_version; staging $package_spec."
                   mkdir -p "$staging"
                   npm pack --pack-destination "$staging"
 
@@ -131,9 +133,10 @@ extends:
 
                   echo "##vso[task.setvariable variable=ShouldPack]true"
                   echo "##vso[task.setvariable variable=ShouldPublish;isOutput=true]true"
+                  echo "##vso[task.setvariable variable=PackageVersion;isOutput=true]$package_version"
                   echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-release.$package_version"
                 name: publishCheck
-                displayName: "Check version and pack npm package"
+                displayName: "Check tag and pack npm package"
 
       - stage: Publish
         displayName: Publish to npmjs
@@ -161,3 +164,98 @@ extends:
                   waitForReleaseCompletion: true
                   owners: "$(ReleaseOwners)"
                   approvers: "$(ReleaseApprovers)"
+
+      - stage: Finalize
+        displayName: Create GitHub release
+        dependsOn:
+          - Build
+          - Publish
+        condition: and(succeeded(), eq(dependencies.Build.outputs['Build.publishCheck.ShouldPublish'], 'true'))
+        variables:
+          PackageVersion: $[stageDependencies.Build.Build.outputs['publishCheck.PackageVersion']]
+        jobs:
+          - job: CreateGitHubRelease
+            displayName: Create tslib GitHub release
+            templateContext:
+              type: releaseJob
+              isProduction: true
+            steps:
+              - checkout: none
+
+              - task: UseNode@1
+                inputs:
+                  version: "22.x"
+                displayName: "Install Node.js"
+
+              - template: /build/azure-pipelines/steps/create-github-app-token.yml@self
+                parameters:
+                  azureSubscription: TypeScript-DevDiv-KeyVault
+                  repositories: tslib
+                  permissions: contents:write
+                  insertSteps:
+                    - bash: |
+                        set -euo pipefail
+                        node <<'NODE'
+                        const repository = "microsoft/tslib";
+                        const version = process.env.PACKAGE_VERSION;
+                        const commit = process.env.RELEASE_SOURCE_COMMIT;
+                        const token = process.env.GH_TOKEN;
+                        if (!version || !commit || !token) {
+                          throw new Error("Package version, source commit, and GitHub token are required.");
+                        }
+                        const tag = `v${version}`;
+                        async function request(path, method = "GET", body) {
+                          const response = await fetch(`https://api.github.com/repos/${repository}/${path}`, {
+                            method,
+                            headers: {
+                              Accept: "application/vnd.github+json",
+                              Authorization: `Bearer ${token}`,
+                              "Content-Type": "application/json",
+                              "X-GitHub-Api-Version": "2022-11-28",
+                            },
+                            body: body === undefined ? undefined : JSON.stringify(body),
+                          });
+                          if (method === "GET" && response.status === 404) return undefined;
+                          if (!response.ok) {
+                            throw new Error(`${method} ${path}: ${response.status} ${await response.text()}`);
+                          }
+                          return response.json();
+                        }
+                        async function finalize() {
+                          const ref = await request(`git/ref/tags/${tag}`);
+                          if (!ref) {
+                            throw new Error(`Expected release tag ${tag} does not exist.`);
+                          }
+                          let object = ref.object;
+                          while (object.type === "tag") {
+                            object = (await request(`git/tags/${object.sha}`)).object;
+                          }
+                          if (object.type !== "commit" || object.sha !== commit) {
+                            throw new Error(`Tag ${tag} does not point to the published commit ${commit}.`);
+                          }
+                          const release = await request(`releases/tags/${tag}`);
+                          if (release) {
+                            if (release.draft) throw new Error(`Release ${tag} is still a draft.`);
+                            console.log(`GitHub release ${tag} already exists: ${release.html_url}`);
+                            return;
+                          }
+                          const created = await request("releases", "POST", {
+                            tag_name: tag,
+                            target_commitish: commit,
+                            name: `tslib ${version}`,
+                            generate_release_notes: true,
+                            prerelease: version.includes("-"),
+                          });
+                          console.log(`Created GitHub release: ${created.html_url}`);
+                        }
+                        finalize().catch(error => {
+                          console.error(error);
+                          process.exitCode = 1;
+                        });
+                        NODE
+                      displayName: Create tslib GitHub release
+                      env:
+                        GH_TOKEN: $(GH_TOKEN)
+                        PACKAGE_VERSION: $(PackageVersion)
+                        RELEASE_SOURCE_COMMIT: $(Build.SourceVersion)
+                        NODE_USE_ENV_PROXY: "1"
