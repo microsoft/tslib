@@ -140,8 +140,7 @@ For JSPM users:
 
 - Run the **Bump tslib** GitHub workflow and choose patch, minor, or major
 - Review and squash-merge the generated version-bump PR
-- Have a release approver approve the MicroBuild release request
-- The tag and build are automatic; after approval, the pipeline publishes to npm and creates a GitHub release with generated notes
+- The release runs automatically: tag, build, publish to npm, and create a GitHub release with generated notes
 
 # Contribute
 
