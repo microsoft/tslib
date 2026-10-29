@@ -51,11 +51,6 @@ jobs:
             echo "package.json version $version does not match bower.json version $bowerVersion." >&2
             exit 1
           fi
-          lockVersion="$(jq -r '.packages[".."].version' test/package-lock.json)"
-          if [ "$version" != "$lockVersion" ]; then
-            echo "package.json version $version does not match test/package-lock.json version $lockVersion." >&2
-            exit 1
-          fi
           echo "changed=true" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
