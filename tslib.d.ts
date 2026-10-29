@@ -453,8 +453,10 @@ export declare function __addDisposableResource<T>(env: { stack: { value?: unkno
 export declare function __disposeResources(env: { stack: { value?: unknown, dispose?: Function, async: boolean }[]; error: unknown; hasError: boolean; }): any;
 
 /**
- * Transforms a relative import specifier ending in a non-declaration TypeScript file extension to its JavaScript file extension counterpart.
+ * Transforms a relative import specifier using additional extension mappings, falling back to rewriting non-declaration TypeScript file extensions to their JavaScript counterparts.
  * @param path The import specifier.
  * @param preserveJsx Causes '*.tsx' to transform to '*.jsx' instead of '*.js'. Should be true when `--jsx` is set to `preserve`.
+ * @param extraExtensions Additional file extension mappings, including leading dots, checked in enumeration order before the built-in rewrites.
+ * @param ignoreCase Whether to ignore case when matching additional file extensions.
  */
-export declare function __rewriteRelativeImportExtension(path: string, preserveJsx?: boolean): string;
+export declare function __rewriteRelativeImportExtension(path: string, preserveJsx?: boolean, extraExtensions?: { [extension: string]: string }, ignoreCase?: boolean): string;
