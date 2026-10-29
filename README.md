@@ -138,14 +138,9 @@ For JSPM users:
 
 ## Deployment
 
-- Choose your new version number
-- Set it in `package.json` and `bower.json`
-- Create a tag: `git tag [version]`
-- Push the tag: `git push --tags`
-- Create a [release in GitHub](https://github.com/microsoft/tslib/releases)
-- Run the [publish to npm](https://github.com/microsoft/tslib/actions?query=workflow%3A%22Publish+to+NPM%22) workflow
-
-Done.
+- Run the **Bump tslib** GitHub workflow and choose patch, minor, or major
+- Review and squash-merge the generated version-bump PR
+- The release runs automatically: tag, build, publish to npm, and create a GitHub release with generated notes
 
 # Contribute
 
