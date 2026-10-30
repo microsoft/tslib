@@ -323,7 +323,6 @@ export function __addDisposableResource(env, value, async) {
         env.stack.push({ async: true });
     }
     return value;
-
 }
 
 var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
