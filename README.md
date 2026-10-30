@@ -60,6 +60,19 @@ yarn add tslib@^1
 yarn add tslib@1.6.1
 ```
 
+## bun
+
+```sh
+# TypeScript 3.9.2 or later
+bun add tslib
+
+# TypeScript 3.8.4 or earlier
+bun add tslib@^1
+
+# TypeScript 2.3.2 or earlier
+bun add tslib@1.6.1
+```
+
 ## bower
 
 ```sh
