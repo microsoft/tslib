@@ -74,24 +74,6 @@ extends:
 
               - script: |
                   set -euo pipefail
-                  cat > .npmrc << 'EOF'
-                  registry=https://pkgs.dev.azure.com/devdiv/devdiv/_packaging/devdiv_PublicPackages/npm/registry/
-                  EOF
-                displayName: "Set up .npmrc"
-
-              - task: npmAuthenticate@0
-                inputs:
-                  workingFile: .npmrc
-                displayName: "Authenticate npm"
-
-              - script: npm install
-                displayName: "Install dependencies"
-
-              - script: node ./test/runTests.js
-                displayName: "Run tests"
-
-              - script: |
-                  set -euo pipefail
 
                   package_name="$(node -p "require('./package.json').name")"
                   package_version="$(node -p "require('./package.json').version")"
@@ -137,6 +119,8 @@ extends:
                   echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-release.$package_version"
                 name: publishCheck
                 displayName: "Check tag and pack npm package"
+                env:
+                  NPM_CONFIG_REGISTRY: https://packagefeedproxy.microsoft.io/npm/
 
       - stage: Publish
         displayName: Publish to npmjs
