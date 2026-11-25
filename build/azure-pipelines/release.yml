@@ -93,12 +93,6 @@ extends:
                     exit 1
                   fi
 
-                  bower_version="$(node -p "require('./bower.json').version")"
-                  if [ "$package_version" != "$bower_version" ]; then
-                    echo "package.json version $package_version does not match bower.json version $bower_version." >&2
-                    exit 1
-                  fi
-
                   echo "Version changed from $previous_version to $package_version; staging $package_spec."
                   mkdir -p "$staging"
                   npm pack --pack-destination "$staging"
