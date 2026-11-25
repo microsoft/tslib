@@ -4,7 +4,6 @@
     "Microsoft Corp."
   ],
   "homepage": "http://typescriptlang.org/",
-  "version": "2.9.1",
   "license": "0BSD",
   "description": "Runtime library for TypeScript helper functions",
   "keywords": [
